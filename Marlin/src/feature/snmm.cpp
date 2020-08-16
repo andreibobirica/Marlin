@@ -25,14 +25,50 @@
 #if ENABLED(MK2_MULTIPLEXER)
 
 #include "../module/stepper.h"
+#include "../../feature/powerloss.h"
 
 void select_multiplexed_stepper(const uint8_t e) {
+  //Relay State
+  bool state = recovery.reverseRELAYMULTIE;
+
+  planner.synchronize();
+  disable_e_steppers();
+  //Azionamento Relay
+  const pin_t pin = GET_PIN_MAP_PIN(PD13);//PIN relay Digitale
+  if (pin_is_protected(pin)) return protected_pin_err();//stop if pin protected
+  safe_delay(100);//Wait sicurezza
+
+  pinMode(pin, OUTPUT);//set pin to output
+  //print pin number    //SERIAL_ECHOLNPAIR("pin: ", pin);
+  SERIAL_ECHOLNPAIR("ask for E: ", e);
+  SERIAL_ECHOLNPAIR("Relay State: ", state);
+
+  if(e == (uint8_t)1){
+      //LOW is 5 volt, HIGH is 0
+      extDigitalWrite(pin, !state);
+      SERIAL_ECHOLNPGM("E1 activated");
+  }
+
+  if(e == (uint8_t)0){
+      //LOW is 5 volt, HIGH is 0
+      extDigitalWrite(pin, state);
+      SERIAL_ECHOLNPGM("E0 activated");
+  }
+  
+  //safe delay to active the relay
+  safe_delay(500);
+
+
+
+  //Vecchia Funzione
+  /*
   planner.synchronize();
   disable_e_steppers();
   WRITE(E_MUX0_PIN, TEST(e, 0) ? HIGH : LOW);
   WRITE(E_MUX1_PIN, TEST(e, 1) ? HIGH : LOW);
   WRITE(E_MUX2_PIN, TEST(e, 2) ? HIGH : LOW);
   safe_delay(100);
+  */
 }
 
 #endif // MK2_MULTIPLEXER

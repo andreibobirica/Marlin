@@ -96,8 +96,8 @@
 // @section info
 
 // Author info of this build printed to the host during boot and M115
-#define STRING_CONFIG_H_AUTHOR "tpruvot"// Who made the changes.
-//#define CUSTOM_VERSION_FILE Version.h // Path from the root directory (no quotes)
+#define STRING_CONFIG_H_AUTHOR "andreibobirica"// Who made the changes.
+#define CUSTOM_VERSION_FILE Version.h // Path from the root directory (no quotes)
 
 /**
  * *** VENDORS PLEASE READ ***
@@ -1293,7 +1293,7 @@
 
   // Set one or more commands to execute on filament runout.
   // (After 'M412 H' Marlin will ask the host to handle the process.)
-  #define FILAMENT_RUNOUT_SCRIPT "M600"
+  #define FILAMENT_RUNOUT_SCRIPT "M117 Filament Runout \n M600"
 
   // After a runout is detected, continue printing this length of filament
   // before executing the runout script. Useful for a sensor at the end of
@@ -1455,12 +1455,12 @@
  * Add a bed leveling sub-menu for ABL or MBL.
  * Include a guided procedure if manual probing is enabled.
  */
-//#define LCD_BED_LEVELING
+#define LCD_BED_LEVELING
 
 #if ENABLED(LCD_BED_LEVELING)
   #define MESH_EDIT_Z_STEP  0.02 // (mm) Step size while manually probing Z axis.
   #define LCD_PROBE_Z_RANGE 4     // (mm) Z Range centered on Z_MIN_POS for LCD Z adjustment
-  //#define MESH_EDIT_MENU        // Add a menu to edit mesh points
+  #define MESH_EDIT_MENU        // Add a menu to edit mesh points
 #endif
 
 // Add a menu item to move between bed corners for manual bed adjustment
@@ -1590,7 +1590,7 @@
 #define EEPROM_CHITCHAT       // Give feedback on EEPROM commands. Disable to save PROGMEM.
 #define EEPROM_BOOT_SILENT    // Keep M503 quiet and only give errors during first load
 #if ENABLED(EEPROM_SETTINGS)
-  //#define EEPROM_AUTO_INIT  // Init EEPROM automatically on any errors.
+  #define EEPROM_AUTO_INIT  // Init EEPROM automatically on any errors.
 #endif
 
 //
@@ -1615,7 +1615,7 @@
 
 // @section temperature
 
-/ Preheat Constants
+// Preheat Constants
 #define PREHEAT_1_LABEL       "PLA"
 #define PREHEAT_1_TEMP_HOTEND 200
 #define PREHEAT_1_TEMP_BED     50
@@ -1779,7 +1779,7 @@
  * the firmware with the feature disabled, reset EEPROM, and (optionally)
  * re-flash the firmware again with this feature enabled.
  */
-#define PASSWORD_FEATURE
+//#define PASSWORD_FEATURE
 #if ENABLED(PASSWORD_FEATURE)
   #define PASSWORD_LENGTH 3                 // (#) Number of digits (1-9). 3 or 4 is recommended
   #define PASSWORD_ON_STARTUP
@@ -2372,8 +2372,8 @@
   #define BUTTON_DELAY_EDIT  75 // (ms) Button repeat delay for edit screens
   #define BUTTON_DELAY_MENU 100 // (ms) Button repeat delay for menus
 
-  #define TOUCH_SCREEN_CALIBRATION // to adapt
-  //#define TOUCH_CALIBRATION // Include user calibration widget in menus (Alfawise)
+  //#define TOUCH_SCREEN_CALIBRATION  //asap
+  #define TOUCH_CALIBRATION // Include user calibration widget in menus (Alfawise)
 
   #if ENABLED(TS_V11)
     // Alfawise U20 ILI9341 2.8 TP Ver 1.1 / Green PCB on the back of touchscreen

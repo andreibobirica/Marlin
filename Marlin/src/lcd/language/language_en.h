@@ -314,7 +314,7 @@ namespace Language_en {
   PROGMEM Language_Str MSG_B_STEPS                         = LCD_STR_B _UxGT(" Steps/mm");
   PROGMEM Language_Str MSG_C_STEPS                         = LCD_STR_C _UxGT(" Steps/mm");
   PROGMEM Language_Str MSG_E_STEPS                         = _UxGT("E steps/mm");
-  PROGMEM Language_Str MSG_EN_STEPS                        = _UxGT("* Steps/mm");
+  PROGMEM Language_Str MSG_EN_STEPS                        = _UxGT("Steps/mm *");
   PROGMEM Language_Str MSG_TEMPERATURE                     = _UxGT("Temperature");
   PROGMEM Language_Str MSG_MOTION                          = _UxGT("Motion");
   PROGMEM Language_Str MSG_FILAMENT                        = _UxGT("Filament");
@@ -504,7 +504,7 @@ namespace Language_en {
   #if LCD_WIDTH >= 20
     PROGMEM Language_Str MSG_INFO_PRINT_COUNT              = _UxGT("Print Count");
     PROGMEM Language_Str MSG_INFO_COMPLETED_PRINTS         = _UxGT("Completed");
-    PROGMEM Language_Str MSG_INFO_PRINT_TIME               = _UxGT("Total Print Time");
+    PROGMEM Language_Str MSG_INFO_PRINT_TIME               = _UxGT("Total Print time");
     PROGMEM Language_Str MSG_INFO_PRINT_LONGEST            = _UxGT("Longest Job Time");
     PROGMEM Language_Str MSG_INFO_PRINT_FILAMENT           = _UxGT("Extruded Total");
   #else
@@ -559,6 +559,12 @@ namespace Language_en {
   PROGMEM Language_Str MSG_MMU2_RESET                      = _UxGT("Reset MMU");
   PROGMEM Language_Str MSG_MMU2_RESETTING                  = _UxGT("MMU Resetting...");
   PROGMEM Language_Str MSG_MMU2_EJECT_RECOVER              = _UxGT("Remove, click");
+  //new
+  PROGMEM Language_Str MSG_TOUCHSCREEN                     = _UxGT("Touchscreen");
+  PROGMEM Language_Str MSG_CALIBRATION                     = _UxGT("Calibration");
+  PROGMEM Language_Str MSG_PRINT_ABORTED_FORCE             = _UxGT("Force Stop");
+  PROGMEM Language_Str MSG_REVERSE_RELAYMULTIE             = _UxGT("Reverse Relay");  // Max 17 
+  PROGMEM Language_Str MSG_STANDBYNOZZLE_RELAYMULTIE       = _UxGT("Standby Nozzle");  // Max 17 
 
   PROGMEM Language_Str MSG_MIX                             = _UxGT("Mix");
   PROGMEM Language_Str MSG_MIX_COMPONENT_N                 = _UxGT("Component =");

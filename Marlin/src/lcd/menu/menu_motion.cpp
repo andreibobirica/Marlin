@@ -238,7 +238,7 @@ void menu_move() {
   else
     GCODES_ITEM(MSG_AUTO_HOME, G28_STR);
 
-  #if ANY(SWITCHING_EXTRUDER, SWITCHING_NOZZLE, MAGNETIC_SWITCHING_TOOLHEAD)
+  #if ANY(SWITCHING_EXTRUDER, SWITCHING_NOZZLE, MAGNETIC_SWITCHING_TOOLHEAD,RELAYMULTIE)
 
     #if EXTRUDERS >= 4
       switch (active_extruder) {
@@ -291,7 +291,7 @@ void menu_move() {
     #elif MULTI_MANUAL
 
       // Independent extruders with one E-stepper per hotend
-      LOOP_L_N(n, E_MANUAL) SUBMENU_MOVE_E(n);
+      //LOOP_L_N(n, E_MANUAL) SUBMENU_MOVE_E(n);
 
     #endif
 

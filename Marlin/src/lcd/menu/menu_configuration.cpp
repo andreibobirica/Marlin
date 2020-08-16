@@ -45,6 +45,10 @@
   #endif
 #endif
 
+#if ENABLED(TOUCH_CALIBRATION)
+  #include "../../feature/touch/calibration.h"
+#endif
+
 #define HAS_DEBUG_MENU ENABLED(LCD_PROGRESS_BAR_TEST)
 
 void menu_advanced_settings();
@@ -402,10 +406,20 @@ void menu_configuration() {
     EDIT_ITEM(bool, MSG_OUTAGE_RECOVERY, &recovery.enabled, recovery.changed);
   #endif
 
+  //Reverse Dual E Logic
+  #if ENABLED(RELAYMULTIE)
+    EDIT_ITEM(bool, MSG_REVERSE_RELAYMULTIE, &recovery.reverseRELAYMULTIE);
+    EDIT_ITEM(bool, MSG_STANDBYNOZZLE_RELAYMULTIE, &recovery.standbyNozzleRELAYMULTIE);
+  #endif
+
   // Preheat configurations
   #if PREHEAT_COUNT && DISABLED(SLIM_LCD_MENUS)
     LOOP_L_N(m, PREHEAT_COUNT)
       SUBMENU_N_S(m, ui.get_preheat_label(m), MSG_PREHEAT_M_SETTINGS, _menu_configuration_preheat_settings);
+  #endif
+
+  #if ENABLED(TOUCH_CALIBRATION)
+    SUBMENU(MSG_TOUCHSCREEN, menu_touchscreen);
   #endif
 
   #if ENABLED(EEPROM_SETTINGS)

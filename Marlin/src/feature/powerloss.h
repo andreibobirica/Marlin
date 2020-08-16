@@ -150,6 +150,10 @@ class PrintJobRecovery {
     static inline void commit_sdpos(const uint8_t index_w) { sdpos[index_w] = cmd_sdpos; }
 
     static bool enabled;
+    #if ENABLED(RELAYMULTIE)
+      static bool reverseRELAYMULTIE;
+      static bool standbyNozzleRELAYMULTIE;
+    #endif
     static void enable(const bool onoff);
     static void changed();
 

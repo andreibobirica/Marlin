@@ -1220,6 +1220,21 @@ void setup() {
   marlin_state = MF_RUNNING;
 
   SETUP_LOG("setup() completed.");
+
+  //Multi E Setup
+  #if ENABLED(RELAYMULTIE)
+    //RELAY State
+    bool state = recovery.reverseRELAYMULTIE;
+    planner.synchronize();
+    disable_e_steppers();
+    //Azionamento Relay
+    const pin_t pin = GET_PIN_MAP_PIN(PD13);//PIN relay Digitale
+    if (pin_is_protected(pin)) return protected_pin_err();//stop if pin protected
+    safe_delay(100);//Wait sicurezza
+    pinMode(pin, OUTPUT);//set pin to output
+    extDigitalWrite(pin, state);
+    SERIAL_ECHOLNPAIR("Relay Reversed Logic checked: ", state);
+  #endif
 }
 
 /**
