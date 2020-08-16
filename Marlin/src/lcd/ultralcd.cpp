@@ -806,6 +806,9 @@ millis_t next_lcd_update_ms;
   millis_t MarlinUI::return_to_status_ms = 0;
 #endif
 
+//Timer di pulsante premuto back, il pulsante D
+millis_t back_abort_time = 0;
+
 void MarlinUI::update() {
 
   static uint16_t max_display_update_time = 0;
@@ -823,6 +826,7 @@ void MarlinUI::update() {
 
   #if HAS_LCD_MENU
 
+    
     // Handle any queued Move Axis motion
     manual_move.task();
 
@@ -835,7 +839,7 @@ void MarlinUI::update() {
 
     auto do_click = [&]{
       wait_for_unclick = true;                        //  - Set debounce flag to ignore continous clicks
-      lcd_clicked = !wait_for_user;                   //  - Keep the click if not waiting for a user-click
+      lcd_clicked = !wait_for_user;    //  - Keep the click if not waiting for a user-click
       wait_for_user = false;                          //  - Any click clears wait for user
       quick_feedback();                               //  - Always make a click sound
     };
@@ -847,17 +851,29 @@ void MarlinUI::update() {
           if (ELAPSED(ms, next_button_update_ms)) {
             encoderDiff = (ENCODER_STEPS_PER_MENU_ITEM) * epps * encoderDirection;
             if (touch_buttons & EN_A) encoderDiff *= -1;
-            TERN_(AUTO_BED_LEVELING_UBL, external_encoder());
+            #if ENABLED(AUTO_BED_LEVELING_UBL)
+              if (external_control) ubl.encoder_diff = encoderDiff;
+            #endif
             next_button_update_ms = ms + repeat_delay;    // Assume the repeat delay
             if (!wait_for_unclick) {
               next_button_update_ms += 250;               // Longer delay on first press
               wait_for_unclick = true;                    // Avoid Back/Select click while repeating
-              chirp();
+              #if HAS_BUZZER
+                buzz(LCD_FEEDBACK_FREQUENCY_DURATION_MS, LCD_FEEDBACK_FREQUENCY_HZ);
+              #endif
             }
           }
         }
         else if (!wait_for_unclick && (buttons & EN_C))   // OK button, if not waiting for a debounce release:
           do_click();
+        else if (!wait_for_unclick && (buttons & EN_D)){   // Azioni da eseguire solo la prima "premuta" di D
+          back_abort_time = ms + 1800;
+          quick_feedback();
+          goto_previous_screen();
+          wait_for_unclick = true;
+          //drawImage(buttonC, u8g, dev, 32, 20, TFT_BTOKMENU_COLOR);
+        }
+      
       }
       else // keep wait_for_unclick value
 
@@ -872,10 +888,17 @@ void MarlinUI::update() {
           wait_for_unclick = false;
       }
 
-    if (LCD_BACK_CLICKED()) {
-      quick_feedback();
-      goto_previous_screen();
-    }
+    /*D BUTTON BACK FORCE ABORT*/
+    if(LCD_BACK_CLICKED()) {
+        if(ELAPSED(ms, back_abort_time)){
+          ////wait_for_heatup = wait_for_user = false; //spengo tutti i calback
+          //card.flag.abort_sd_printing = true;//aborting stampa da sd
+          //print_job_timer.stop();//timer job spento
+          abort_print();
+          //set_status_P(GET_TEXT(MSG_PRINT_ABORTED_FORCE));//messaggio a schermo
+          back_abort_time = ms + 3500;//Reimposto timer di force stop;
+        }
+    }//end LCD_BACK_CLICKED()
 
   #endif // HAS_LCD_MENU
 
@@ -1547,20 +1570,24 @@ void MarlinUI::update() {
     //  - On edit screens, touch Up Half for -,  Bottom Half to +
     //
     void MarlinUI::screen_click(const uint8_t row, const uint8_t col, const uint8_t, const uint8_t) {
-      const int8_t xdir = col < (LCD_WIDTH ) / 2 ? -1 : 1,
-                   ydir = row < (LCD_HEIGHT) / 2 ? -1 : 1;
-      if (on_edit_screen){}
-        //encoderDiff = epps * ydir;
-      else if (screen_items > 0) {
-        // Last 3 cols act as a scroll :-)
-        if (col > (LCD_WIDTH) - 5)
-          // 2 * LCD_HEIGHT to scroll to bottom of next page. (LCD_HEIGHT would only go 1 item down.)
-          encoderDiff = epps * (encoderLine - encoderTopLine + 2 * (LCD_HEIGHT)) * ydir;
-        else
-          encoderDiff = epps * (row - encoderPosition + encoderTopLine);
+      const millis_t now = millis();
+      if (ELAPSED(now, next_button_update_ms)) {
+        next_button_update_ms = now + repeat_delay;    // Assume the repeat delay
+        const int8_t xdir = col < (LCD_WIDTH ) / 2 ? -1 : 1,
+                    ydir = row < (LCD_HEIGHT) / 2 ? -1 : 1;
+        if (on_edit_screen)
+          encoderDiff = epps * ydir * 2;
+        else if (screen_items > 0) {
+          // Last 5 cols act as a scroll :-)
+          if (col > (LCD_WIDTH) - 5)
+            // 2 * LCD_HEIGHT to scroll to bottom of next page. (LCD_HEIGHT would only go 1 item down.)
+            encoderDiff = epps * (encoderLine - encoderTopLine + 2 * (LCD_HEIGHT)) * ydir;
+          else
+            encoderDiff = epps * (row - encoderPosition + encoderTopLine);
+        }
+        else if (!on_status_screen())
+          encoderDiff = epps * xdir * 2;
       }
-      else if (!on_status_screen()){}
-        //encoderDiff = epps * xdir;
     }
 
   #endif

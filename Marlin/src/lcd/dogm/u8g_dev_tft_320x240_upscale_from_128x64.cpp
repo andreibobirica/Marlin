@@ -788,6 +788,8 @@ uint8_t u8g_dev_tft_320x240_upscale_from_128x64_fn(u8g_t *u8g, u8g_dev_t *dev, u
         LCD_IO_WriteMultiple(COLOR_WHITE, 600);
         setWindow(u8g, dev, 10, 195, 309, 196);
         LCD_IO_WriteMultiple(TFT_LINES_COLOR, 600);
+        setWindow(u8g, dev, 10, 217, 309, 218);
+        LCD_IO_WriteMultiple(TFT_LINES_COLOR, 600);
         setWindow(u8g, dev, 10, 239, 309, 240);
         LCD_IO_WriteMultiple(TFT_LINES_COLOR, 600);
 
