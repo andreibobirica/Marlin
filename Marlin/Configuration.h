@@ -185,7 +185,7 @@
 
 // @section extruder
 //RELAY MULTI E
-//#define RELAYMULTIE true
+#define RELAYMULTIE true
 
 // This defines the number of extruders
 // :[1, 2, 3, 4, 5, 6, 7, 8]
@@ -841,7 +841,7 @@
  * Override with M203
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 500, 500, 10, 50 }
+#define DEFAULT_MAX_FEEDRATE          { 500, 500, 5, 50 }
 
 #define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -858,7 +858,7 @@
 
 #define LIMITED_MAX_ACCEL_EDITING     // Limit edit via M201 or LCD to DEFAULT_MAX_ACCELERATION * 2
 #if ENABLED(LIMITED_MAX_ACCEL_EDITING)
-  #define MAX_ACCEL_EDIT_VALUES       {500, 500, 100, 3000} // ...or, set your own edit limits
+  #define MAX_ACCEL_EDIT_VALUES       {2000, 2000, 2000, 3000} // ...or, set your own edit limits
 #endif
 
 /**
@@ -970,7 +970,7 @@
  * or (with LCD_BED_LEVELING) the LCD controller.
  */
 #define PROBE_MANUALLY
-#define MANUAL_PROBE_START_Z 0.2
+#define MANUAL_PROBE_START_Z 0.0
 
 /**
  * A Fix-Mounted Probe either doesn't deploy or needs manual deployment.

@@ -2590,14 +2590,14 @@
   // Get LCD character width/height, which may be overridden by pins, configs, etc.
   #ifndef LCD_WIDTH
     #if HAS_GRAPHICAL_LCD
-      #define LCD_WIDTH 21
+      #define LCD_WIDTH 26
     #else
       #define LCD_WIDTH TERN(ULTIPANEL, 20, 16)
     #endif
   #endif
   #ifndef LCD_HEIGHT
     #if HAS_GRAPHICAL_LCD
-      #define LCD_HEIGHT 5
+      #define LCD_HEIGHT 6
     #else
       #define LCD_HEIGHT TERN(ULTIPANEL, 4, 2)
     #endif

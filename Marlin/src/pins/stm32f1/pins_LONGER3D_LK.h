@@ -133,8 +133,8 @@
 #define FSMC_UPSCALE                           2
 #define LCD_FULL_PIXEL_WIDTH                 320
 #define LCD_FULL_PIXEL_HEIGHT                240
-#define LCD_PIXEL_OFFSET_X                    32
-#define LCD_PIXEL_OFFSET_Y                    32
+#define LCD_PIXEL_OFFSET_X                    0
+#define LCD_PIXEL_OFFSET_Y                    0
 
 /**
  * Note: Alfawise U20/U30 boards DON'T use SPI2, as the hardware designer
