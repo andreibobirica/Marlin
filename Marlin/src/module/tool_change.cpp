@@ -36,6 +36,10 @@
 #define DEBUG_OUT ENABLED(DEBUG_TOOL_CHANGE)
 #include "../core/debug_out.h"
 
+#if ENABLED(RELAYMULTIE)
+  #include "../feature/powerloss.h"
+#endif
+
 #if EXTRUDERS > 1
   toolchange_settings_t toolchange_settings;  // Initialized by settings.load()
 #endif
@@ -915,6 +919,9 @@ void tool_change(const uint8_t new_tool, bool no_move/*=false*/) {
 
     if (new_tool != old_tool) {
       destination = current_position;
+      #if ENABLED(RELAYMULTIE)
+      SERIAL_ECHOLNPGM("Asked for a different T");
+      #endif
 
       #if BOTH(TOOLCHANGE_FILAMENT_SWAP, HAS_FAN) && TOOLCHANGE_FS_FAN >= 0
         // Store and stop fan. Restored on any exit.
@@ -1055,11 +1062,14 @@ void tool_change(const uint8_t new_tool, bool no_move/*=false*/) {
       if (should_move) {
 
         #if BOTH(HAS_FAN, SINGLENOZZLE_STANDBY_FAN)
+        if(recovery.standbyNozzleRELAYMULTIE){
           singlenozzle_fan_speed[old_tool] = thermalManager.fan_speed[0];
           thermalManager.fan_speed[0] = singlenozzle_fan_speed[new_tool];
+        }
         #endif
 
         #if ENABLED(SINGLENOZZLE_STANDBY_TEMP)
+        if(recovery.standbyNozzleRELAYMULTIE){
           singlenozzle_temp[old_tool] = thermalManager.temp_hotend[0].target;
           if (singlenozzle_temp[new_tool] && singlenozzle_temp[new_tool] != singlenozzle_temp[old_tool]) {
             thermalManager.setTargetHotend(singlenozzle_temp[new_tool], 0);
@@ -1067,6 +1077,7 @@ void tool_change(const uint8_t new_tool, bool no_move/*=false*/) {
             TERN_(HAS_DISPLAY, thermalManager.set_heating_message(0));
             (void)thermalManager.wait_for_hotend(0, false);  // Wait for heating or cooling
           }
+        }
         #endif
 
         #if ENABLED(TOOLCHANGE_FILAMENT_SWAP)
@@ -1133,7 +1144,7 @@ void tool_change(const uint8_t new_tool, bool no_move/*=false*/) {
               if (toolchange_settings.enable_park) do_blocking_move_to_xy_z(destination, destination.z, MMM_TO_MMS(TOOLCHANGE_PARK_XY_FEEDRATE));
             #else
               do_blocking_move_to_xy(destination, planner.settings.max_feedrate_mm_s[X_AXIS]);
-              do_blocking_move_to_z(destination, planner.settings.max_feedrate_mm_s[Z_AXIS]);
+              do_blocking_move_to_z(destination.z, planner.settings.max_feedrate_mm_s[Z_AXIS]);
             #endif
 
           #endif

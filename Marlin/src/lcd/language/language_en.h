@@ -314,7 +314,7 @@ namespace Language_en {
   PROGMEM Language_Str MSG_B_STEPS                         = LCD_STR_B _UxGT(" Steps/mm");
   PROGMEM Language_Str MSG_C_STEPS                         = LCD_STR_C _UxGT(" Steps/mm");
   PROGMEM Language_Str MSG_E_STEPS                         = _UxGT("E steps/mm");
-  PROGMEM Language_Str MSG_EN_STEPS                        = _UxGT("* Steps/mm");
+  PROGMEM Language_Str MSG_EN_STEPS                        = _UxGT("Steps/mm *");
   PROGMEM Language_Str MSG_TEMPERATURE                     = _UxGT("Temperature");
   PROGMEM Language_Str MSG_MOTION                          = _UxGT("Motion");
   PROGMEM Language_Str MSG_FILAMENT                        = _UxGT("Filament");
@@ -559,6 +559,12 @@ namespace Language_en {
   PROGMEM Language_Str MSG_MMU2_RESET                      = _UxGT("Reset MMU");
   PROGMEM Language_Str MSG_MMU2_RESETTING                  = _UxGT("MMU Resetting...");
   PROGMEM Language_Str MSG_MMU2_EJECT_RECOVER              = _UxGT("Remove, click");
+  //new
+  PROGMEM Language_Str MSG_TOUCHSCREEN                     = _UxGT("Touchscreen");
+  PROGMEM Language_Str MSG_CALIBRATION                     = _UxGT("Calibration");
+  PROGMEM Language_Str MSG_PRINT_ABORTED_FORCE             = _UxGT("Force Stop");
+  PROGMEM Language_Str MSG_REVERSE_RELAYMULTIE             = _UxGT("Reverse Relay");  // Max 17 
+  PROGMEM Language_Str MSG_STANDBYNOZZLE_RELAYMULTIE       = _UxGT("Standby Nozzle");  // Max 17 
 
   PROGMEM Language_Str MSG_MIX                             = _UxGT("Mix");
   PROGMEM Language_Str MSG_MIX_COMPONENT_N                 = _UxGT("Component =");
@@ -587,6 +593,21 @@ namespace Language_en {
 
   PROGMEM Language_Str MSG_BAD_PAGE                        = _UxGT("Bad page index");
   PROGMEM Language_Str MSG_BAD_PAGE_SPEED                  = _UxGT("Bad page speed");
+
+  PROGMEM Language_Str MSG_EDIT_PASSWORD                   = _UxGT("Edit Password");
+  PROGMEM Language_Str MSG_LOGIN_REQUIRED                  = _UxGT("Login Required");
+  PROGMEM Language_Str MSG_PASSWORD_SETTINGS               = _UxGT("Password Settings");
+  PROGMEM Language_Str MSG_ENTER_DIGIT                     = _UxGT("Enter Digit");
+  PROGMEM Language_Str MSG_CHANGE_PASSWORD                 = _UxGT("Set/Edit Password");
+  PROGMEM Language_Str MSG_REMOVE_PASSWORD                 = _UxGT("Remove Password");
+  PROGMEM Language_Str MSG_PASSWORD_SET                    = _UxGT("Password is ");
+  PROGMEM Language_Str MSG_START_OVER                      = _UxGT("Start Over");
+  PROGMEM Language_Str MSG_REMINDER_SAVE_SETTINGS          = _UxGT("Remember to Save!");
+  PROGMEM Language_Str MSG_PASSWORD_REMOVED                = _UxGT("Password Removed");
+
+  // FSMC/SPI Touchscreen
+  PROGMEM Language_Str MSG_TOUCHSCREEN                     = _UxGT("Touchscreen");
+  PROGMEM Language_Str MSG_CALIBRATION                     = _UxGT("Calibration");
 
   //
   // Filament Change screens show up to 3 lines on a 4-line display

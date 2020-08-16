@@ -49,6 +49,10 @@
   #include "../../module/tool_change.h"
 #endif
 
+#if ENABLED(RELAYMULTIE)
+  #include "../../feature/powerloss.h"
+#endif
+
 /**
  * M104: Set Hotend Temperature target and return immediately
  *
@@ -88,8 +92,10 @@ void GcodeSuite::M104() {
 
   if (got_temp) {
     #if ENABLED(SINGLENOZZLE_STANDBY_TEMP)
+    if(recovery.standbyNozzleRELAYMULTIE){
       singlenozzle_temp[target_extruder] = temp;
       if (target_extruder != active_extruder) return;
+    }
     #endif
     thermalManager.setTargetHotend(temp, target_extruder);
 
@@ -166,8 +172,10 @@ void GcodeSuite::M109() {
 
   if (got_temp) {
     #if ENABLED(SINGLENOZZLE_STANDBY_TEMP)
+    if(recovery.standbyNozzleRELAYMULTIE){
       singlenozzle_temp[target_extruder] = temp;
       if (target_extruder != active_extruder) return;
+    }
     #endif
     thermalManager.setTargetHotend(temp, target_extruder);
 

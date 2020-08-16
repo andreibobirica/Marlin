@@ -45,6 +45,10 @@
   #endif
 #endif
 
+#if ENABLED(TOUCH_CALIBRATION)
+  #include "../../feature/touch/calibration.h"
+#endif
+
 #define HAS_DEBUG_MENU ENABLED(LCD_PROGRESS_BAR_TEST)
 
 void menu_advanced_settings();
@@ -66,7 +70,7 @@ void menu_advanced_settings();
     bar_percent += (int8_t)ui.encoderPosition;
     LIMIT(bar_percent, 0, 100);
     ui.encoderPosition = 0;
-    MenuItem_static::draw(0, GET_TEXT(MSG_PROGRESS_BAR_TEST), SS_CENTER|SS_INVERT);
+    MenuItem_static::draw(0, GET_TEXT(MSG_PROGRESS_BAR_TEST), SS_DEFAULT|SS_INVERT);
     lcd_put_int((LCD_WIDTH) / 2 - 2, LCD_HEIGHT - 2, bar_percent); lcd_put_wchar('%');
     lcd_moveto(0, LCD_HEIGHT - 1); ui.draw_progress_bar(bar_percent);
   }
@@ -307,7 +311,7 @@ void menu_advanced_settings();
     #define MAXTEMP_ALL _MAX(REPEAT(HOTENDS, _MAXTEMP_ITEM) 0)
     const uint8_t m = MenuItemBase::itemIndex;
     START_MENU();
-    STATIC_ITEM_P(ui.get_preheat_label(m), SS_CENTER|SS_INVERT);
+    STATIC_ITEM_P(ui.get_preheat_label(m), SS_DEFAULT|SS_INVERT);
     BACK_ITEM(MSG_CONFIGURATION);
     #if HAS_FAN
       editable.uint8 = uint8_t(ui.material_preset[m].fan_speed);
@@ -402,10 +406,20 @@ void menu_configuration() {
     EDIT_ITEM(bool, MSG_OUTAGE_RECOVERY, &recovery.enabled, recovery.changed);
   #endif
 
+  //Reverse Dual E Logic
+  #if ENABLED(RELAYMULTIE)
+    EDIT_ITEM(bool, MSG_REVERSE_RELAYMULTIE, &recovery.reverseRELAYMULTIE);
+    EDIT_ITEM(bool, MSG_STANDBYNOZZLE_RELAYMULTIE, &recovery.standbyNozzleRELAYMULTIE);
+  #endif
+
   // Preheat configurations
   #if PREHEAT_COUNT && DISABLED(SLIM_LCD_MENUS)
     LOOP_L_N(m, PREHEAT_COUNT)
       SUBMENU_N_S(m, ui.get_preheat_label(m), MSG_PREHEAT_M_SETTINGS, _menu_configuration_preheat_settings);
+  #endif
+
+  #if ENABLED(TOUCH_CALIBRATION)
+    SUBMENU(MSG_TOUCHSCREEN, menu_touchscreen);
   #endif
 
   #if ENABLED(EEPROM_SETTINGS)

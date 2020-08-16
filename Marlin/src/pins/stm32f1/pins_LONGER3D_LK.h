@@ -24,7 +24,7 @@
 
 #if !defined(__STM32F1__) && !defined(STM32F1xx)
   #error "Oops! Select a STM32F1 board in 'Tools > Board.'"
-#elif HOTENDS > 1 || E_STEPPERS > 1
+#elif HOTENDS > 1 && E_STEPPERS > 1
   #error "Longer3D board only supports 1 hotend / E-stepper. Comment out this line to continue."
 #endif
 
@@ -130,12 +130,18 @@
 #define DOGLCD_MOSI                         -1    // Prevent auto-define by Conditionals_post.h
 #define DOGLCD_SCK                          -1
 
+#define FSMC_UPSCALE                           2
+#define LCD_FULL_PIXEL_WIDTH                 320
+#define LCD_FULL_PIXEL_HEIGHT                240
+#define LCD_PIXEL_OFFSET_X                    32
+#define LCD_PIXEL_OFFSET_Y                    32
+
 /**
  * Note: Alfawise U20/U30 boards DON'T use SPI2, as the hardware designer
  * mixed up MOSI and MISO pins. SPI is managed in SW, and needs pins
  * declared below.
  */
-#if ENABLED(TOUCH_BUTTONS)
+#if NEED_TOUCH_PINS
   #define TOUCH_CS_PIN                      PB12  // pin 51 SPI2_NSS
   #define TOUCH_SCK_PIN                     PB13  // pin 52
   #define TOUCH_MOSI_PIN                    PB14  // pin 53
