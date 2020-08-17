@@ -88,7 +88,7 @@
 //     Try the alternate setting - this should enable ST7789V or ILI9328. For other LCDs... code is needed
 //     with the proper boot sequence to be developped.
 
-#define LCD_READ_ID   0xD3 // Read display identification information in reg ID4 0xD3, for ILI9341 screens
+//#define LCD_READ_ID 0xD3 // Read display identification information in reg ID4 0xD3, for ILI9341 screens
 //#define LCD_READ_ID 0x04 // Read display identification information in reg ID1 0x04 - ST7789V / ILI9328 or others
 
 //===========================================================================
@@ -179,8 +179,8 @@
 //Overclock Function
 //#define OVERCLOCK
 #if ENABLED(OVERCLOCK)
-  #define OC_BASE_MHZ 72
-  #define OC_TARGET_MHZ 128
+  //#define OC_BASE_MHZ 72
+  //#define OC_TARGET_MHZ 128
 #endif
 
 // @section extruder
