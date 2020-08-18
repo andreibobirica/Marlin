@@ -207,6 +207,7 @@ void GcodeSuite::G28() {
     DualXMode IDEX_saved_mode = dual_x_carriage_mode;
   #endif
 
+  //Marlin developer Mode don't home after power loss recovery
   #if ENABLED(MARLIN_DEV_MODE)
     if (parser.seen('S')) {
       LOOP_XYZ(a) set_axis_is_at_home((AxisEnum)a);
