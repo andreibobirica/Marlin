@@ -53,8 +53,8 @@
  */
 
 // Coordinates in terms of touch area
-#define BUTTON_AREA_TOP 175
-#define BUTTON_AREA_BOT 234
+#define BUTTON_AREA_TOP 198 //175
+#define BUTTON_AREA_BOT 240 //234
 
 // Touch sensor resolution independent of display resolution
 #define TOUCH_SENSOR_WIDTH  320
@@ -68,8 +68,8 @@
 #define SCREEN_WIDTH      SCREEN_WIDTH_PCT((LCD_PIXEL_WIDTH) * (FSMC_UPSCALE))
 #define SCREEN_HEIGHT     SCREEN_HEIGHT_PCT((LCD_PIXEL_HEIGHT) * (FSMC_UPSCALE))
 
-#define TOUCHABLE_X_WIDTH  SCREEN_WIDTH
-#define TOUCHABLE_Y_HEIGHT SCREEN_HEIGHT
+#define TOUCHABLE_X_WIDTH  SCREEN_WIDTH //320
+#define TOUCHABLE_Y_HEIGHT SCREEN_HEIGHT //160
 
 #ifndef TOUCH_INT_PIN
   #define TOUCH_INT_PIN  -1
@@ -150,13 +150,12 @@ uint8_t XPT2046::read_buttons() {
            : WITHIN(x, 242, 305) ? EN_C
            : 0;
 
-    if ( !WITHIN(x, SCREEN_START_LEFT, SCREEN_START_LEFT + SCREEN_WIDTH)
-      || !WITHIN(y, SCREEN_START_TOP, SCREEN_START_TOP + SCREEN_HEIGHT)
+    if ( !WITHIN(x, SCREEN_START_LEFT, SCREEN_START_LEFT + SCREEN_WIDTH) || !WITHIN(y, SCREEN_START_TOP, SCREEN_START_TOP + SCREEN_HEIGHT)
     ) return 0;
 
     // Column and row above BUTTON_AREA_TOP
     int8_t col = (x - (SCREEN_START_LEFT)) * (LCD_WIDTH) / (TOUCHABLE_X_WIDTH),
-           row = (y - (SCREEN_START_TOP)) * (LCD_HEIGHT) / (TOUCHABLE_Y_HEIGHT);
+           row = (y - (SCREEN_START_TOP)) * (LCD_HEIGHT) / ((TOUCHABLE_Y_HEIGHT)+10);
 
     // Send the touch to the UI (which will simulate the encoder wheel)
     MarlinUI::screen_click(row, col, x, y);
