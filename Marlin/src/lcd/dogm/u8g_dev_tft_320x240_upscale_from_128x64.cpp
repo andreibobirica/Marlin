@@ -780,13 +780,13 @@ uint8_t u8g_dev_tft_320x240_upscale_from_128x64_fn(u8g_t *u8g, u8g_dev_t *dev, u
 
         //Lines
         setWindow(u8g, dev, 10, 161, 309, 162);
-        LCD_IO_WriteMultiple(COLOR_WHITE, 600);
+        tftio.WriteMultiple(COLOR_WHITE,(uint16_t)600);
         setWindow(u8g, dev, 10, 195, 309, 196);
-        LCD_IO_WriteMultiple(TFT_LINES_COLOR, 600);
+        tftio.WriteMultiple(TFT_LINES_COLOR, (uint16_t)600);
         setWindow(u8g, dev, 10, 217, 309, 218);
-        LCD_IO_WriteMultiple(TFT_LINES_COLOR, 600);
+        tftio.WriteMultiple(TFT_LINES_COLOR, (uint16_t)600);
         setWindow(u8g, dev, 10, 239, 309, 240);
-        LCD_IO_WriteMultiple(TFT_LINES_COLOR, 600);
+        tftio.WriteMultiple(TFT_LINES_COLOR, (uint16_t)600);
 
         setWindow(u8g, dev, BUTTOND_X_LO, BUTTON_Y_LO, BUTTOND_X_HI, BUTTON_Y_HI);
         drawImage(buttonD, u8g, dev, 32, 20, TFT_BTCANCEL_COLOR);
@@ -839,7 +839,7 @@ uint8_t u8g_dev_tft_320x240_upscale_from_128x64_fn(u8g_t *u8g, u8g_dev_t *dev, u
           }
         #endif
       #endif
-      setWindow(u8g, dev, LCD_PIXEL_OFFSET_X, LCD_PIXEL_OFFSET_Y, X_HI, Y_HI);
+      setWindow(u8g, dev, TFT_PIXEL_OFFSET_X, TFT_PIXEL_OFFSET_Y, X_HI, Y_HI);
       break;
 
     case U8G_DEV_MSG_PAGE_NEXT:

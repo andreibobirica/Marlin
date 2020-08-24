@@ -24,6 +24,10 @@
 #include "touch_buttons.h"
 #include "../scaled_tft.h"
 
+#if ENABLED(TOUCH_CALIBRATION)
+  #include "../../feature/touch/calibration.h"
+#endif
+
 #include HAL_PATH(../../HAL, tft/xpt2046.h)
 XPT2046 touchIO;
 
@@ -66,21 +70,39 @@ XPT2046 touchIO;
 #define SCREEN_PCT_HEIGHT SCREEN_PCT_HIGH((GRAPHICAL_TFT_UPSCALE) * (LCD_PIXEL_HEIGHT))
 
 // Coordinates in terms of 240-unit-tall touch area
-#define BUTTON_AREA_TOP 175
-#define BUTTON_AREA_BOT 234
+#define BUTTON_AREA_TOP 198//175
+#define BUTTON_AREA_BOT 240//234
 
 TouchButtons touch;
 
 void TouchButtons::init() { touchIO.Init(); }
 
 uint8_t TouchButtons::read_buttons() {
+
+    int16_t tsoffsets[4] = { 0 };
+
+   #if ENABLED(TOUCH_CALIBRATION)
+    tsoffsets[0] = calibration.results[0];
+    tsoffsets[1] = calibration.results[1];
+    tsoffsets[2] = calibration.results[2];
+    tsoffsets[3] = calibration.results[3];
+  #endif
+
+  if (tsoffsets[0] + tsoffsets[1] == 0) {
+    // Not yet set, so use defines as fallback...
+    tsoffsets[0] = XPT2046_X_CALIBRATION;
+    tsoffsets[1] = XPT2046_X_OFFSET;
+    tsoffsets[2] = XPT2046_Y_CALIBRATION;
+    tsoffsets[3] = XPT2046_Y_OFFSET;
+  }
+
   #ifdef HAS_SPI_LCD
     int16_t x, y;
 
     if (!touchIO.getRawPoint(&x, &y)) return 0;
 
-    x = uint16_t((uint32_t(x) * XPT2046_X_CALIBRATION) >> 16) + XPT2046_X_OFFSET;
-    y = uint16_t((uint32_t(y) * XPT2046_Y_CALIBRATION) >> 16) + XPT2046_Y_OFFSET;
+    x = uint16_t((uint32_t(x) * tsoffsets[0]) >> 16) + tsoffsets[1];
+    y = uint16_t((uint32_t(y) * tsoffsets[2]) >> 16) + tsoffsets[3];
 
     #if ENABLED(GRAPHICAL_TFT_ROTATE_180)
       x = TOUCH_SENSOR_WIDTH - x;
