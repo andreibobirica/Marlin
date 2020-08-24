@@ -1571,12 +1571,12 @@ void MarlinUI::update() {
     //
     void MarlinUI::screen_click(const uint8_t row, const uint8_t col, const uint8_t, const uint8_t) {
       const millis_t now = millis();
-      if (ELAPSED(now, next_button_update_ms)) {
+      if (ELAPSED(now, next_button_update_ms/2)) {
         next_button_update_ms = now + repeat_delay;    // Assume the repeat delay
         const int8_t xdir = col < (LCD_WIDTH ) / 2 ? -1 : 1,
                     ydir = row < (LCD_HEIGHT) / 2 ? -1 : 1;
         if (on_edit_screen)
-          encoderDiff = epps * ydir * 2;
+          encoderDiff = epps * ydir;
         else if (screen_items > 0) {
           // Last 5 cols act as a scroll :-)
           if (col > (LCD_WIDTH) - 5)
@@ -1586,7 +1586,7 @@ void MarlinUI::update() {
             encoderDiff = epps * (row - encoderPosition + encoderTopLine);
         }
         else if (!on_status_screen())
-          encoderDiff = epps * xdir * 2;
+          encoderDiff = epps * xdir;
       }
     }
 
