@@ -19,7 +19,7 @@
 
 #include "../../inc/MarlinConfig.h"
 
-#if ENABLED(TOUCH_CALIBRATION)
+#if ENABLED(TOUCH_CALIBRATION) && false
 
 #include "st7789v.h"
 #include "fsmc.h"

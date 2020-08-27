@@ -21,7 +21,7 @@
 
 #if ENABLED(TOUCH_CALIBRATION)
 
-#include "menu.h"
+#include "menu_item.h"
 #include "../../feature/touch/calibration.h"
 
 TouchCalibration calibration;
