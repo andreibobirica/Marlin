@@ -2394,9 +2394,7 @@
   #define BUTTON_DELAY_MENU 100 // (ms) Button repeat delay for menus
 
   #if ENABLED(COLOR_UI)
-  #define TOUCH_SCREEN_CALIBRATION  //asap
-  #elif ENABLED(CLASSIC_UI)
-    #define TOUCH_CALIBRATION // Include user calibration widget in menus (Alfawise)
+  #define TOUCH_SCREEN_CALIBRATION
   #endif
 
   #if ENABLED(TS_V11)
