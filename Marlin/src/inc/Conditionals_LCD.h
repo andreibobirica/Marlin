@@ -781,9 +781,7 @@
   #define EXTRUDE_MINTEMP 170
 #endif
 
-/**
- * To check if we need the folder src/features/leds
- */
-#if ANY(TEMP_STAT_LEDS, HAS_COLOR_LEDS, HAS_CASE_LIGHT, PRINTER_EVENT_LEDS, LED_BACKLIGHT_TIMEOUT, PCA9632_BUZZER, LED_CONTROL_MENU, NEOPIXEL_LED)
-  #define HAS_LED_FEATURE 1
+// This flag indicates if Neopixel pins are shared or separated
+#if EITHER(MULTIPLE_NEOPIXEL_TYPES, NEOPIXEL2_INSERIES)
+  #define CONJOINED_NEOPIXEL 1
 #endif
