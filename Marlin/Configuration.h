@@ -95,6 +95,11 @@
 #endif
 //===========================================================================
 
+// MESH BED LEVELING or AUTO BED LEVELING BLTOUCH
+  //#define MBLEVELING
+  #define ABLEVELING
+//===========================================================================
+
 // @section info
 
 // Author info of this build printed to the host during boot and M115
@@ -191,7 +196,7 @@
 
 // @section extruder
 //RELAY MULTI E
-#define RELAYMULTIE true
+//#define RELAYMULTIE true
 
 // This defines the number of extruders
 // :[1, 2, 3, 4, 5, 6, 7, 8]
@@ -975,7 +980,9 @@
  * Use G29 repeatedly, adjusting the Z height at each point with movement commands
  * or (with LCD_BED_LEVELING) the LCD controller.
  */
+#if ENABLED(MBLEVELING)
 #define PROBE_MANUALLY
+#endif
 #define MANUAL_PROBE_START_Z 0.0
 
 /**
@@ -999,7 +1006,9 @@
 /**
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
  */
-//#define BLTOUCH
+#if DISABLED(RELAYMULTIE) && ENABLED(ABLEVELING)
+#define BLTOUCH
+#endif
 
 /**
  * Pressure sensor with a BLTouch-like interface
@@ -1087,7 +1096,7 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET { 10, 10, 0 }
+#define NOZZLE_TO_PROBE_OFFSET { -35, -6, -0.92 }
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
@@ -1111,7 +1120,7 @@
  * A total of 2 does fast/slow probes with a weighted average.
  * A total of 3 or more adds more slow probes, taking the average.
  */
-//#define MULTIPLE_PROBING 2
+#define MULTIPLE_PROBING 2
 //#define EXTRA_PROBING    1
 
 /**
@@ -1140,7 +1149,9 @@
 #define Z_PROBE_OFFSET_RANGE_MAX 20
 
 // Enable the M48 repeatability test to test probe accuracy
-//#define Z_MIN_PROBE_REPEATABILITY_TEST
+#if ENABLED(ABLEVELING)
+#define Z_MIN_PROBE_REPEATABILITY_TEST
+#endif
 
 // Before deploy/stow pause for user confirmation
 //#define PAUSE_BEFORE_DEPLOY_STOW
@@ -1356,8 +1367,12 @@
 //#define AUTO_BED_LEVELING_3POINT
 //#define AUTO_BED_LEVELING_LINEAR
 //#define AUTO_BED_LEVELING_BILINEAR
-//#define AUTO_BED_LEVELING_UBL
+#if DISABLED(RELAYMULTIE) && ENABLED(ABLEVELING)
+#define AUTO_BED_LEVELING_UBL
+#endif
+#if ENABLED(MBLEVELING)
 #define MESH_BED_LEVELING
+#endif
 
 /**
  * Normally G28 leaves leveling disabled on completion. Enable
@@ -1402,7 +1417,7 @@
 #if EITHER(AUTO_BED_LEVELING_LINEAR, AUTO_BED_LEVELING_BILINEAR)
 
   // Set the number of grid points per dimension.
-  #define GRID_MAX_POINTS_X 3
+  #define GRID_MAX_POINTS_X 5
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
   // Probe along the Y axis, advancing X after each column
@@ -1506,11 +1521,13 @@
 // - Move the Z probe (or nozzle) to a defined XY point before Z Homing.
 // - Prevent Z homing when the Z probe is outside bed area.
 //
-//#define Z_SAFE_HOMING
+#if ENABLED(ABLEVELING)
+#define Z_SAFE_HOMING
+#endif
 
 #if ENABLED(Z_SAFE_HOMING)
-  #define Z_SAFE_HOMING_X_POINT X_CENTER  // X point for Z homing
-  #define Z_SAFE_HOMING_Y_POINT Y_CENTER  // Y point for Z homing
+  #define Z_SAFE_HOMING_X_POINT 40  // X point for Z homing
+  #define Z_SAFE_HOMING_Y_POINT PROBING_MARGIN
 #endif
 
 // Homing speeds (mm/min)

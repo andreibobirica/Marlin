@@ -705,7 +705,7 @@
   //#define BLTOUCH_HS_MODE
 
   // Safety: Enable voltage mode settings in the LCD menu.
-  //#define BLTOUCH_LCD_VOLTAGE_MENU
+  #define BLTOUCH_LCD_VOLTAGE_MENU
 
 #endif // BLTOUCH
 
@@ -773,7 +773,9 @@
 //
 // Add the G35 command to read bed corners to help adjust screws. Requires a bed probe.
 //
-//#define ASSISTED_TRAMMING
+#if ENABLED(ABLEVELING)
+#define ASSISTED_TRAMMING
+#endif
 #if ENABLED(ASSISTED_TRAMMING)
 
   // Define positions for probing points, use the hotend as reference not the sensor.
@@ -1677,6 +1679,12 @@
   //#define MESH_MIN_Y MESH_INSET
   //#define MESH_MAX_X X_BED_SIZE - (MESH_INSET)
   //#define MESH_MAX_Y Y_BED_SIZE - (MESH_INSET)
+  #if ENABLED(ABLEVELING)
+  #define MESH_MIN_X _MAX(PROBING_MARGIN, MESH_INSET)
+  #define MESH_MIN_Y _MAX(PROBING_MARGIN, MESH_INSET)
+  #define MESH_MAX_X X_BED_SIZE - 35 // NOZZLE_TO_PROBE_OFFSET
+  #define MESH_MAX_Y Y_BED_SIZE - _MAX(PROBING_MARGIN, MESH_INSET)
+  #endif
 #endif
 
 /**
