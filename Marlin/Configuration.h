@@ -90,7 +90,9 @@
 
 //#define LCD_READ_ID 0xD3 // Read display identification information in reg ID4 0xD3, for ILI9341 screens
 //#define LCD_READ_ID 0x04 // Read display identification information in reg ID1 0x04 - ST7789V / ILI9328 or others
-
+#ifndef LCD_READ_ID
+  #define LCD_READ_ID 0xD3
+#endif
 //===========================================================================
 
 // @section info
@@ -114,10 +116,14 @@
 #define SHOW_BOOTSCREEN
 
 // Show the bitmap in Marlin/_Bootscreen.h on startup.
-#define SHOW_CUSTOM_BOOTSCREEN
+#if ENABLED(CLASSIC_UI)
+  #define SHOW_CUSTOM_BOOTSCREEN
+#endif
 
 // Show the bitmap in Marlin/_Statusscreen.h on the status screen.
-#define CUSTOM_STATUS_SCREEN_IMAGE
+#if ENABLED(CLASSIC_UI)
+  #define CUSTOM_STATUS_SCREEN_IMAGE
+#endif
 
 // @section machine
 
@@ -539,8 +545,8 @@
 #define PID_K1 0.95      // Smoothing factor within any PID loop
 
 #if ENABLED(PIDTEMP)
-  //#define PID_EDIT_MENU         // Add PID editing to the "Advanced Settings" menu. (~700 bytes of PROGMEM)
-  //#define PID_AUTOTUNE_MENU     // Add PID auto-tuning to the "Advanced Settings" menu. (~250 bytes of PROGMEM)
+  #define PID_EDIT_MENU         // Add PID editing to the "Advanced Settings" menu. (~700 bytes of PROGMEM)
+  #define PID_AUTOTUNE_MENU     // Add PID auto-tuning to the "Advanced Settings" menu. (~250 bytes of PROGMEM)
   //#define PID_PARAMS_PER_HOTEND // Uses separate PID parameters for each extruder (useful for mismatched extruders)
                                   // Set/get with gcode: M301 E[extruder number, 0-2]
 
@@ -2321,11 +2327,20 @@
 //=============================== Graphical TFTs ==============================
 //=============================================================================
 
+//#define COLOR_UI
+//or
+//#define CLASSIC_UI
+#if !ENABLED(COLOR_UI) && !ENABLED(CLASSIC_UI)
+ #define CLASSIC_UI
+#endif
+
 //
 // TFT display with optional touch screen
 // Color Marlin UI with standard menu system
 //
-//#define TFT_320x240
+#if ENABLED(COLOR_UI)
+  #define TFT_320x240
+#endif
 //#define TFT_320x240_SPI
 //#define TFT_480x320
 //#define TFT_480x320_SPI
@@ -2347,7 +2362,9 @@
 // FSMC display (MKS Robin, Alfawise U20, JGAurora A5S, REXYZ A1, etc.)
 // Upscaled 128x64 Marlin UI
 //
-#define FSMC_GRAPHICAL_TFT
+#if ENABLED(CLASSIC_UI)
+  #define FSMC_GRAPHICAL_TFT
+#endif
 
 //
 // TFT LVGL UI
@@ -2376,8 +2393,9 @@
   #define BUTTON_DELAY_EDIT  75 // (ms) Button repeat delay for edit screens
   #define BUTTON_DELAY_MENU 100 // (ms) Button repeat delay for menus
 
-  //#define TOUCH_SCREEN_CALIBRATION  //asap
-  #define TOUCH_CALIBRATION // Include user calibration widget in menus (Alfawise)
+  #if ENABLED(COLOR_UI)
+  #define TOUCH_SCREEN_CALIBRATION
+  #endif
 
   #if ENABLED(TS_V11)
     // Alfawise U20 ILI9341 2.8 TP Ver 1.1 / Green PCB on the back of touchscreen
