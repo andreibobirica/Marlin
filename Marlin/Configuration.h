@@ -93,11 +93,27 @@
 #ifndef LCD_READ_ID
   #define LCD_READ_ID 0xD3
 #endif
+
 //===========================================================================
+//============================= IMPORTANT CONFIGURATION =====================
+//===========================================================================
+//Language supported are it and en
+#define LCD_LANGUAGE it
+
+//RELAY MULTI E
+//#define RELAYMULTIE true
 
 // MESH BED LEVELING or AUTO BED LEVELING BLTOUCH
-  //#define MBLEVELING
-  #define ABLEVELING
+#define MBLEVELING
+//#define ABLEVELING
+
+//NOT SUPPORTED COLOR_UI WITH BL TOUCH
+#if ENABLED(COLOR_UI) && ENABLED(ABLEVELING)
+  #undef COLOR_UI
+  #define CLASSIC_UI
+#endif
+
+//Language
 //===========================================================================
 
 // @section info
@@ -194,9 +210,7 @@
   //#define OC_TARGET_MHZ 128
 #endif
 
-// @section extruder
-//RELAY MULTI E
-//#define RELAYMULTIE true
+// @section extrude
 
 // This defines the number of extruders
 // :[1, 2, 3, 4, 5, 6, 7, 8]
@@ -1834,7 +1848,7 @@
  *
  * :{ 'en':'English', 'an':'Aragonese', 'bg':'Bulgarian', 'ca':'Catalan', 'cz':'Czech', 'da':'Danish', 'de':'German', 'el':'Greek', 'el_gr':'Greek (Greece)', 'es':'Spanish', 'eu':'Basque-Euskera', 'fi':'Finnish', 'fr':'French', 'gl':'Galician', 'hr':'Croatian', 'hu':'Hungarian', 'it':'Italian', 'jp_kana':'Japanese', 'ko_KR':'Korean (South Korea)', 'nl':'Dutch', 'pl':'Polish', 'pt':'Portuguese', 'pt_br':'Portuguese (Brazilian)', 'ro':'Romanian', 'ru':'Russian', 'sk':'Slovak', 'tr':'Turkish', 'uk':'Ukrainian', 'vi':'Vietnamese', 'zh_CN':'Chinese (Simplified)', 'zh_TW':'Chinese (Traditional)', 'test':'TEST' }
  */
-#define LCD_LANGUAGE en
+//#define LCD_LANGUAGE en
 
 /**
  * LCD Character Set
