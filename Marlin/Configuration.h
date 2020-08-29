@@ -101,7 +101,7 @@
 #define LCD_LANGUAGE it
 
 //RELAY MULTI E
-//#define RELAYMULTIE true
+#define RELAYMULTIE true
 
 // MESH BED LEVELING or AUTO BED LEVELING BLTOUCH
 #define MBLEVELING
@@ -113,8 +113,6 @@
   #define CLASSIC_UI
 #endif
 
-//Language
-//===========================================================================
 
 // @section info
 
@@ -253,9 +251,9 @@
 #if ENABLED(MK2_MULTIPLEXER)
   // Override the default DIO selector pins here, if needed.
   // Some pins files may provide defaults for these pins.
-  #define E_MUX0_PIN PD13  // Always Required
-  #define E_MUX1_PIN PD13  // Needed for 3 to 8 inputs
-  #define E_MUX2_PIN PD13  // Needed for 5 to 8 inputs
+  #define E_MUX0_PIN -1  // Always Required
+  #define E_MUX1_PIN -1  // Needed for 3 to 8 inputs
+  #define E_MUX2_PIN -1  // Needed for 5 to 8 inputs
 #endif
 
 /**
@@ -995,7 +993,7 @@
  * or (with LCD_BED_LEVELING) the LCD controller.
  */
 #if ENABLED(MBLEVELING)
-#define PROBE_MANUALLY
+  #define PROBE_MANUALLY
 #endif
 #define MANUAL_PROBE_START_Z 0.0
 
@@ -1021,7 +1019,7 @@
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
  */
 #if DISABLED(RELAYMULTIE) && ENABLED(ABLEVELING)
-#define BLTOUCH
+  #define BLTOUCH
 #endif
 
 /**
@@ -1399,7 +1397,7 @@
  * Turn on with the command 'M111 S32'.
  * NOTE: Requires a lot of PROGMEM!
  */
-//#define DEBUG_LEVELING_FEATURE
+#define DEBUG_LEVELING_FEATURE
 
 #if ANY(MESH_BED_LEVELING, AUTO_BED_LEVELING_BILINEAR, AUTO_BED_LEVELING_UBL)
   // Gradually reduce leveling correction until a set height is reached,
