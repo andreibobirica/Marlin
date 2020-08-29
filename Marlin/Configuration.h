@@ -93,7 +93,26 @@
 #ifndef LCD_READ_ID
   #define LCD_READ_ID 0xD3
 #endif
+
 //===========================================================================
+//============================= IMPORTANT CONFIGURATION =====================
+//===========================================================================
+//Language supported are it and en
+#define LCD_LANGUAGE it
+
+//RELAY MULTI E
+#define RELAYMULTIE true
+
+// MESH BED LEVELING or AUTO BED LEVELING BLTOUCH
+#define MBLEVELING
+//#define ABLEVELING
+
+//NOT SUPPORTED COLOR_UI WITH BL TOUCH
+#if ENABLED(COLOR_UI) && ENABLED(ABLEVELING)
+  #undef COLOR_UI
+  #define CLASSIC_UI
+#endif
+
 
 // @section info
 
@@ -189,9 +208,7 @@
   //#define OC_TARGET_MHZ 128
 #endif
 
-// @section extruder
-//RELAY MULTI E
-#define RELAYMULTIE true
+// @section extrude
 
 // This defines the number of extruders
 // :[1, 2, 3, 4, 5, 6, 7, 8]
@@ -234,9 +251,9 @@
 #if ENABLED(MK2_MULTIPLEXER)
   // Override the default DIO selector pins here, if needed.
   // Some pins files may provide defaults for these pins.
-  #define E_MUX0_PIN PD13  // Always Required
-  #define E_MUX1_PIN PD13  // Needed for 3 to 8 inputs
-  #define E_MUX2_PIN PD13  // Needed for 5 to 8 inputs
+  #define E_MUX0_PIN -1  // Always Required
+  #define E_MUX1_PIN -1  // Needed for 3 to 8 inputs
+  #define E_MUX2_PIN -1  // Needed for 5 to 8 inputs
 #endif
 
 /**
@@ -836,7 +853,7 @@
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
 #if ENABLED(RELAYMULTIE)
-  #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 415 , 415 }
+  #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 414 , 414 }
 #endif
 #if DISABLED(RELAYMULTIE)
   #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 96 }
@@ -847,7 +864,7 @@
  * Override with M203
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 500, 500, 5, 50 }
+#define DEFAULT_MAX_FEEDRATE          { 250, 250, 5, 50 }
 
 #define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -975,7 +992,9 @@
  * Use G29 repeatedly, adjusting the Z height at each point with movement commands
  * or (with LCD_BED_LEVELING) the LCD controller.
  */
-#define PROBE_MANUALLY
+#if ENABLED(MBLEVELING)
+  #define PROBE_MANUALLY
+#endif
 #define MANUAL_PROBE_START_Z 0.0
 
 /**
@@ -999,7 +1018,9 @@
 /**
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
  */
-//#define BLTOUCH
+#if DISABLED(RELAYMULTIE) && ENABLED(ABLEVELING)
+  #define BLTOUCH
+#endif
 
 /**
  * Pressure sensor with a BLTouch-like interface
@@ -1087,7 +1108,7 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET { 10, 10, 0 }
+#define NOZZLE_TO_PROBE_OFFSET { -35, -6, -0.92 }
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
@@ -1111,7 +1132,7 @@
  * A total of 2 does fast/slow probes with a weighted average.
  * A total of 3 or more adds more slow probes, taking the average.
  */
-//#define MULTIPLE_PROBING 2
+#define MULTIPLE_PROBING 2
 //#define EXTRA_PROBING    1
 
 /**
@@ -1140,7 +1161,9 @@
 #define Z_PROBE_OFFSET_RANGE_MAX 20
 
 // Enable the M48 repeatability test to test probe accuracy
-//#define Z_MIN_PROBE_REPEATABILITY_TEST
+#if ENABLED(ABLEVELING)
+#define Z_MIN_PROBE_REPEATABILITY_TEST
+#endif
 
 // Before deploy/stow pause for user confirmation
 //#define PAUSE_BEFORE_DEPLOY_STOW
@@ -1356,8 +1379,12 @@
 //#define AUTO_BED_LEVELING_3POINT
 //#define AUTO_BED_LEVELING_LINEAR
 //#define AUTO_BED_LEVELING_BILINEAR
-//#define AUTO_BED_LEVELING_UBL
+#if DISABLED(RELAYMULTIE) && ENABLED(ABLEVELING)
+#define AUTO_BED_LEVELING_UBL
+#endif
+#if ENABLED(MBLEVELING)
 #define MESH_BED_LEVELING
+#endif
 
 /**
  * Normally G28 leaves leveling disabled on completion. Enable
@@ -1370,7 +1397,7 @@
  * Turn on with the command 'M111 S32'.
  * NOTE: Requires a lot of PROGMEM!
  */
-//#define DEBUG_LEVELING_FEATURE
+#define DEBUG_LEVELING_FEATURE
 
 #if ANY(MESH_BED_LEVELING, AUTO_BED_LEVELING_BILINEAR, AUTO_BED_LEVELING_UBL)
   // Gradually reduce leveling correction until a set height is reached,
@@ -1402,7 +1429,7 @@
 #if EITHER(AUTO_BED_LEVELING_LINEAR, AUTO_BED_LEVELING_BILINEAR)
 
   // Set the number of grid points per dimension.
-  #define GRID_MAX_POINTS_X 3
+  #define GRID_MAX_POINTS_X 5
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
   // Probe along the Y axis, advancing X after each column
@@ -1506,11 +1533,13 @@
 // - Move the Z probe (or nozzle) to a defined XY point before Z Homing.
 // - Prevent Z homing when the Z probe is outside bed area.
 //
-//#define Z_SAFE_HOMING
+#if ENABLED(ABLEVELING)
+#define Z_SAFE_HOMING
+#endif
 
 #if ENABLED(Z_SAFE_HOMING)
-  #define Z_SAFE_HOMING_X_POINT X_CENTER  // X point for Z homing
-  #define Z_SAFE_HOMING_Y_POINT Y_CENTER  // Y point for Z homing
+  #define Z_SAFE_HOMING_X_POINT 40  // X point for Z homing
+  #define Z_SAFE_HOMING_Y_POINT PROBING_MARGIN
 #endif
 
 // Homing speeds (mm/min)
@@ -1792,7 +1821,7 @@
 //#define PASSWORD_FEATURE
 #if ENABLED(PASSWORD_FEATURE)
   #define PASSWORD_LENGTH 3                 // (#) Number of digits (1-9). 3 or 4 is recommended
-  #define PASSWORD_ON_STARTUP
+  //#define PASSWORD_ON_STARTUP
   #define PASSWORD_UNLOCK_GCODE             // Unlock with the M511 P<password> command. Disable to prevent brute-force attack.
   #define PASSWORD_CHANGE_GCODE             // Change the password with M512 P<old> S<new>.
   //#define PASSWORD_ON_SD_PRINT_MENU       // This does not prevent gcodes from running
@@ -1817,7 +1846,7 @@
  *
  * :{ 'en':'English', 'an':'Aragonese', 'bg':'Bulgarian', 'ca':'Catalan', 'cz':'Czech', 'da':'Danish', 'de':'German', 'el':'Greek', 'el_gr':'Greek (Greece)', 'es':'Spanish', 'eu':'Basque-Euskera', 'fi':'Finnish', 'fr':'French', 'gl':'Galician', 'hr':'Croatian', 'hu':'Hungarian', 'it':'Italian', 'jp_kana':'Japanese', 'ko_KR':'Korean (South Korea)', 'nl':'Dutch', 'pl':'Polish', 'pt':'Portuguese', 'pt_br':'Portuguese (Brazilian)', 'ro':'Romanian', 'ru':'Russian', 'sk':'Slovak', 'tr':'Turkish', 'uk':'Ukrainian', 'vi':'Vietnamese', 'zh_CN':'Chinese (Simplified)', 'zh_TW':'Chinese (Traditional)', 'test':'TEST' }
  */
-#define LCD_LANGUAGE en
+//#define LCD_LANGUAGE en
 
 /**
  * LCD Character Set
