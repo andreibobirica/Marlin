@@ -1404,7 +1404,7 @@
  * Turn on with the command 'M111 S32'.
  * NOTE: Requires a lot of PROGMEM!
  */
-#if DISABLED(COLOR_UI)
+#if DISABLED(ABLEVELING)
   #define DEBUG_LEVELING_FEATURE
 #endif
 
@@ -1423,7 +1423,7 @@
   /**
    * Enable the G26 Mesh Validation Pattern tool.
    */
-  #if DISABLED(COLOR_UI)
+  #if DISABLED(ABLEVELING)
     #define G26_MESH_VALIDATION
   #endif
   #if ENABLED(G26_MESH_VALIDATION)
@@ -1634,7 +1634,7 @@
  */
 #define EEPROM_SETTINGS       // Persistent storage with M500 and M501
 //#define DISABLE_M503        // Saves ~2700 bytes of PROGMEM. Disable for release!
-#if DISABLED(COLOR_UI)
+#if DISABLED(ABLEVELING)
   #define EEPROM_CHITCHAT       // Give feedback on EEPROM commands. Disable to save PROGMEM.
 #endif
 #define EEPROM_BOOT_SILENT    // Keep M503 quiet and only give errors during first load
