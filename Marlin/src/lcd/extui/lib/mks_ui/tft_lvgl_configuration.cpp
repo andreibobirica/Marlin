@@ -267,7 +267,7 @@ void LCD_Clear(uint16_t Color) {
   }
 }
 
-#include HAL_PATH(../../HAL, tft/tft_fsmc.h)
+#include "../../../tft_io/tft_io.h"
 extern TFT_IO tftio;
 void init_tft() {
   uint16_t i;
