@@ -98,21 +98,24 @@
 //============================= IMPORTANT CONFIGURATION =====================
 //===========================================================================
 //Language supported are it and en
-#define LCD_LANGUAGE it
+//#define LCD_LANGUAGE it
 
 //RELAY MULTI E
-#define RELAYMULTIE true
+//#define RELAYMULTIE true
 
 // MESH BED LEVELING or AUTO BED LEVELING BLTOUCH
-#define MBLEVELING
+//#define MBLEVELING
 //#define ABLEVELING
 
-//NOT SUPPORTED COLOR_UI WITH BL TOUCH
-#if ENABLED(COLOR_UI) && ENABLED(ABLEVELING)
-  #undef COLOR_UI
-  #define CLASSIC_UI
-#endif
 
+
+//CONDIZIONI DI CONTROLLO
+#if DISABLED(MBLEVELING) && DISABLED(ABLEVELING)
+  #define ABLEVELING
+#endif
+#ifndef LCD_LANGUAGE
+  #define LCD_LANGUAGE en
+#endif
 
 // @section info
 
@@ -769,7 +772,11 @@
 #define X_MAX_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
 #define Y_MAX_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
 #define Z_MAX_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
-#define Z_MIN_PROBE_ENDSTOP_INVERTING false // Set to true to invert the logic of the probe.
+#if ENABLED(ABLEVELING)
+  #define Z_MIN_PROBE_ENDSTOP_INVERTING true // Set to true to invert the logic of the probe.
+#else
+  #define Z_MIN_PROBE_ENDSTOP_INVERTING false // Set to true to invert the logic of the probe.
+#endif
 
 /**
  * Stepper Drivers
@@ -1112,7 +1119,7 @@
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
-#define PROBING_MARGIN 10
+#define PROBING_MARGIN 15
 
 // X and Y axis travel speed (mm/min) between probes
 #define XY_PROBE_SPEED (133*60)
@@ -1378,12 +1385,12 @@
  */
 //#define AUTO_BED_LEVELING_3POINT
 //#define AUTO_BED_LEVELING_LINEAR
-//#define AUTO_BED_LEVELING_BILINEAR
 #if DISABLED(RELAYMULTIE) && ENABLED(ABLEVELING)
-#define AUTO_BED_LEVELING_UBL
+  #define AUTO_BED_LEVELING_BILINEAR
 #endif
+//#define AUTO_BED_LEVELING_UBL
 #if ENABLED(MBLEVELING)
-#define MESH_BED_LEVELING
+  #define MESH_BED_LEVELING
 #endif
 
 /**
@@ -1397,7 +1404,9 @@
  * Turn on with the command 'M111 S32'.
  * NOTE: Requires a lot of PROGMEM!
  */
-#define DEBUG_LEVELING_FEATURE
+#if DISABLED(COLOR_UI)
+  #define DEBUG_LEVELING_FEATURE
+#endif
 
 #if ANY(MESH_BED_LEVELING, AUTO_BED_LEVELING_BILINEAR, AUTO_BED_LEVELING_UBL)
   // Gradually reduce leveling correction until a set height is reached,
@@ -1414,7 +1423,9 @@
   /**
    * Enable the G26 Mesh Validation Pattern tool.
    */
-  #define G26_MESH_VALIDATION
+  #if DISABLED(COLOR_UI)
+    #define G26_MESH_VALIDATION
+  #endif
   #if ENABLED(G26_MESH_VALIDATION)
     #define MESH_TEST_NOZZLE_SIZE    0.4  // (mm) Diameter of primary nozzle.
     #define MESH_TEST_LAYER_HEIGHT   0.2  // (mm) Default layer height for the G26 Mesh Validation Tool.
@@ -1538,8 +1549,8 @@
 #endif
 
 #if ENABLED(Z_SAFE_HOMING)
-  #define Z_SAFE_HOMING_X_POINT 40  // X point for Z homing
-  #define Z_SAFE_HOMING_Y_POINT PROBING_MARGIN
+ #define Z_SAFE_HOMING_X_POINT X_CENTER // X point for Z homing
+ #define Z_SAFE_HOMING_Y_POINT Y_CENTER
 #endif
 
 // Homing speeds (mm/min)
@@ -1623,7 +1634,9 @@
  */
 #define EEPROM_SETTINGS       // Persistent storage with M500 and M501
 //#define DISABLE_M503        // Saves ~2700 bytes of PROGMEM. Disable for release!
-#define EEPROM_CHITCHAT       // Give feedback on EEPROM commands. Disable to save PROGMEM.
+#if DISABLED(COLOR_UI)
+  #define EEPROM_CHITCHAT       // Give feedback on EEPROM commands. Disable to save PROGMEM.
+#endif
 #define EEPROM_BOOT_SILENT    // Keep M503 quiet and only give errors during first load
 #if ENABLED(EEPROM_SETTINGS)
   #define EEPROM_AUTO_INIT  // Init EEPROM automatically on any errors.
