@@ -569,7 +569,7 @@ namespace Language_it {
   PROGMEM Language_Str MSG_SD_INIT_FAIL                    = _UxGT("SD Init Fail");
 
   PROGMEM Language_Str MSG_MIX                             = _UxGT("Miscela");
-  PROGMEM Language_Str MSG_MIX_COMPONENT_N                 = _UxGT("Componente ~");
+  PROGMEM Language_Str MSG_MIX_COMPONENT_N                 = _UxGT("Componente =");
   PROGMEM Language_Str MSG_MIXER                           = _UxGT("Miscelatore");
   PROGMEM Language_Str MSG_GRADIENT                        = _UxGT("Gradiente");
   PROGMEM Language_Str MSG_FULL_GRADIENT                   = _UxGT("Gradiente pieno");
