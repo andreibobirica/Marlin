@@ -446,8 +446,6 @@ namespace Language_it {
   PROGMEM Language_Str MSG_BABYSTEP_TOTAL                  = _UxGT("Totali");
   PROGMEM Language_Str MSG_ENDSTOP_ABORT                   = _UxGT("Endstop Abort");
   PROGMEM Language_Str MSG_HEATING_FAILED_LCD              = _UxGT("Riscald. Fallito");
-  PROGMEM Language_Str MSG_HEATING_FAILED_LCD_BED          = _UxGT("Risc. piatto fallito");
-  PROGMEM Language_Str MSG_HEATING_FAILED_LCD_CHAMBER      = _UxGT("Risc. camera fallito");
   PROGMEM Language_Str MSG_ERR_REDUNDANT_TEMP              = _UxGT("Err: TEMP RIDONDANTE");
   PROGMEM Language_Str MSG_THERMAL_RUNAWAY                 = _UxGT("TEMP FUORI CONTROLLO");
   PROGMEM Language_Str MSG_THERMAL_RUNAWAY_BED             = _UxGT("TEMP PIAT.FUORI CTRL");
