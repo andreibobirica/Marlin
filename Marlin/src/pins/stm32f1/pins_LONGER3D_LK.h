@@ -151,6 +151,7 @@
   #endif
 #endif
 
+<<<<<<< HEAD
 //COLOR_UI
 #if ENABLED(COLOR_UI)
   #define LCD_RESET_PIN                       PC4   // pin 33
@@ -162,6 +163,35 @@
   #define FSMC_DMA_CHANNEL                    DMA_CH5
   //#define LCD_USE_DMA_FSMC
   
+=======
+#define LCD_RESET_PIN                       PC4   // pin 33
+#define TFT_RESET_PIN                       PC4   // pin 33
+#define TFT_BACKLIGHT_PIN                   PD12  // pin 59
+#define FSMC_CS_PIN                         PD7   // pin 88 = FSMC_NE1
+#define FSMC_RS_PIN                         PD11  // pin 58 A16 Register. Only one address needed
+
+//#define LCD_USE_DMA_FSMC                        // Use DMA transfers to send data to the TFT (broken)
+#define FSMC_DMA_DEV                        DMA2
+#define FSMC_DMA_CHANNEL                 DMA_CH5
+
+#define DOGLCD_MOSI                         -1    // Prevent auto-define by Conditionals_post.h
+#define DOGLCD_SCK                          -1
+
+#define GRAPHICAL_TFT_UPSCALE                  2
+#define TFT_WIDTH                            320
+#define TFT_HEIGHT                           240
+#define TFT_PIXEL_OFFSET_X                    32
+#define TFT_PIXEL_OFFSET_Y                    32
+
+//#define TFT_DRIVER                     ILI9341
+
+/**
+ * Note: Alfawise U20/U30 boards DON'T use SPI2, as the hardware designer
+ * mixed up MOSI and MISO pins. SPI is managed in SW, and needs pins
+ * declared below.
+ */
+#if NEED_TOUCH_PINS
+>>>>>>> bugfix-2.0.x
   #define TOUCH_CS_PIN                      PB12  // pin 51 SPI2_NSS
   #define TOUCH_SCK_PIN                     PB13  // pin 52
   #define TOUCH_MOSI_PIN                    PB14  // pin 53
