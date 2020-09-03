@@ -129,7 +129,7 @@
 
   #define DOGLCD_MOSI                         -1    // Prevent auto-define by Conditionals_post.h
   #define DOGLCD_SCK                          -1
-//#define LCD_USE_DMA_FSMC                        // Use DMA transfers to send data to the TFT (broken)
+  //#define LCD_USE_DMA_FSMC                        // Use DMA transfers to send data to the TFT (broken)
 
   #define GRAPHICAL_TFT_UPSCALE                2
   #define TFT_FULL_PIXEL_WIDTH                 320
@@ -160,6 +160,7 @@
   #define FSMC_RS_PIN                         PD11  // pin 58 A16 Register. Only one address needed
   #define FSMC_DMA_DEV                        DMA2
   #define FSMC_DMA_CHANNEL                    DMA_CH5
+  //#define LCD_USE_DMA_FSMC
   
   #define TOUCH_CS_PIN                      PB12  // pin 51 SPI2_NSS
   #define TOUCH_SCK_PIN                     PB13  // pin 52
