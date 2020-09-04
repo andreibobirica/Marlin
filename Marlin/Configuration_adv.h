@@ -1602,7 +1602,7 @@
     #endif
   #endif
 
-  //#define BABYSTEP_DISPLAY_TOTAL          // Display total babysteps since last G28
+  #define BABYSTEP_DISPLAY_TOTAL          // Display total babysteps since last G28
 
   //#define BABYSTEP_ZPROBE_OFFSET          // Combine M851 Z and Babystepping
   #if ENABLED(BABYSTEP_ZPROBE_OFFSET)
@@ -2107,7 +2107,7 @@
   #define FILAMENT_UNLOAD_PURGE_LENGTH         8  // (mm) An unretract is done, then this length is purged.
   #define FILAMENT_UNLOAD_PURGE_FEEDRATE      25  // (mm/s) feedrate to purge before unload
 
-  #define PAUSE_PARK_NOZZLE_TIMEOUT           60  // (seconds) Time limit before the nozzle is turned off for safety.
+  #define PAUSE_PARK_NOZZLE_TIMEOUT           2*(60)  // (seconds) Time limit before the nozzle is turned off for safety.
   #define FILAMENT_CHANGE_ALERT_BEEPS         10  // Number of alert beeps to play when a response is needed.
   #define PAUSE_PARK_NO_STEPPER_TIMEOUT           // Enable for XYZ steppers to stay powered on during filament change.
 
@@ -3164,10 +3164,10 @@
 #define FASTER_GCODE_PARSER
 
 #if ENABLED(FASTER_GCODE_PARSER)
-  //#define GCODE_QUOTED_STRINGS  // Support for quoted string parameters
+  #define GCODE_QUOTED_STRINGS  // Support for quoted string parameters
 #endif
 
-//#define GCODE_CASE_INSENSITIVE  // Accept G-code sent to the firmware in lowercase
+#define GCODE_CASE_INSENSITIVE  // Accept G-code sent to the firmware in lowercase
 
 //#define REPETIER_GCODE_M360     // Add commands originally from Repetier FW
 
@@ -3215,8 +3215,10 @@
   #define USER_SCRIPT_AUDIBLE_FEEDBACK
   #define USER_SCRIPT_RETURN  // Return to status screen after a script
 
-  #define USER_DESC_1 "Screen Calibration"
-  #define USER_GCODE_1 "M117 COLOR UI! \nM995"
+  #if ENABLED(CLASSIC_UI)
+    #define USER_DESC_1 "Screen Calibration"
+    #define USER_GCODE_1 "M117 COLOR UI! \nM995"
+  #endif
 
   #if DISABLED(ABLEVELING)
     #define USER_DESC_2 "Print Mesh Validation"
@@ -3560,7 +3562,7 @@
 //
 // M100 Free Memory Watcher to debug memory usage
 //
-//#define M100_FREE_MEMORY_WATCHER
+#define M100_FREE_MEMORY_WATCHER
 
 //
 // M43 - display pin status, toggle pins, watch pins, watch endstops & toggle LED, test servo probe
