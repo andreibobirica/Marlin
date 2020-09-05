@@ -1556,7 +1556,7 @@
 
 // Homing speeds (mm/min)
 #define HOMING_FEEDRATE_XY (50*60)
-#define HOMING_FEEDRATE_Z  (8*60)
+#define HOMING_FEEDRATE_Z  (6*60)
 
 // Validate that endstops are triggered on homing moves
 #define VALIDATE_HOMING_ENDSTOPS
@@ -1832,7 +1832,9 @@
  * the firmware with the feature disabled, reset EEPROM, and (optionally)
  * re-flash the firmware again with this feature enabled.
  */
-//#define PASSWORD_FEATURE
+#if ENABLED(CLASSIC_UI)
+  #define PASSWORD_FEATURE
+#endif
 #if ENABLED(PASSWORD_FEATURE)
   #define PASSWORD_LENGTH 3                 // (#) Number of digits (1-9). 3 or 4 is recommended
   //#define PASSWORD_ON_STARTUP
