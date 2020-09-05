@@ -1837,7 +1837,7 @@
 #endif
 #if ENABLED(PASSWORD_FEATURE)
   #define PASSWORD_LENGTH 3                 // (#) Number of digits (1-9). 3 or 4 is recommended
-  #define PASSWORD_ON_STARTUP
+  //#define PASSWORD_ON_STARTUP
   #define PASSWORD_UNLOCK_GCODE             // Unlock with the M511 P<password> command. Disable to prevent brute-force attack.
   #define PASSWORD_CHANGE_GCODE             // Change the password with M512 P<old> S<new>.
   //#define PASSWORD_ON_SD_PRINT_MENU       // This does not prevent gcodes from running
