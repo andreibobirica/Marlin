@@ -1181,7 +1181,7 @@
     #define POWER_LOSS_MIN_Z_CHANGE 0.05 // (mm) Minimum Z change before saving power-loss data
 
     #define DEBUG_POWER_LOSS_RECOVERY // Debug informations on serial output
-    #define SAVE_INFO_INTERVAL_MS 1000   // Force SD recov. write interval, on each layer start if 0
+    #define SAVE_INFO_INTERVAL_MS 2000   // Force SD recov. write interval, on each layer start if 0
   #endif
 
   /**
