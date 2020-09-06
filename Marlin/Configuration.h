@@ -2297,6 +2297,8 @@
 //      Interface:  TFT_INTERFACE_FSMC or TFT_INTERFACE_SPI
 //
 //#define TFT_GENERIC
+//#define TFT_INTERFACE_FSMC
+#define LONGER_LK_TFT28
 
 //
 // TFT UI - User Interface Selection
@@ -2309,8 +2311,12 @@
 //     For LVGL_UI, you need the copy the 'assets' folder from the build directory to the
 //     root of your SD card, together with the compiled firmware.
 //
-//#define TFT_COLOR_UI
-#define TFT_CLASSIC_UI
+#define TFT_COLOR_UI
+//#define TFT_CLASSIC_UI
+
+#if ENABLED(TFT_COLOR_UI)
+  #undef CUSTOM_STATUS_SCREEN_IMAGE
+#endif
 
 //
 // TFT Rotation

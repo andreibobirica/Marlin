@@ -118,7 +118,6 @@
  * because Marlin uses the reset as a failsafe to revive a glitchy LCD.
  */
 
-#define LCD_RESET_PIN                       PC4   // pin 33
 #define TFT_RESET_PIN                       PC4   // pin 33
 #define TFT_BACKLIGHT_PIN                   PD12  // pin 59
 #define FSMC_CS_PIN                         PD7   // pin 88 = FSMC_NE1
@@ -137,7 +136,11 @@
 #define TFT_PIXEL_OFFSET_X                    32
 #define TFT_PIXEL_OFFSET_Y                    32
 
-//#define TFT_DRIVER                     ILI9341
+#define TFT_INTERFACE_FSMC
+#define TFT_DRIVER                          AUTO // ILI9341 but, lcd id read op req.
+#define TFT_BUFFER_SIZE                     3200 // TFT_WIDTH x 10
+
+//#define TFT_DEFAULT_ORIENTATION TFT_EXCHANGE_XY | TFT_INVERT_X | TFT_INVERT_Y
 
 /**
  * Note: Alfawise U20/U30 boards DON'T use SPI2, as the hardware designer
