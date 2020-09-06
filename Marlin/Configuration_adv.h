@@ -1398,13 +1398,14 @@
   #define BOOT_MARLIN_LOGO_ANIMATED // Animated Marlin logo. Costs ~‭3260 (or ~940) bytes of PROGMEM.
 
   // Frivolous Game Options
+  /*
   #if DISABLED(COLOR_UI)
     #define MARLIN_BRICKOUT
     #define MARLIN_INVADERS
     #define MARLIN_SNAKE
     //#define GAMES_EASTER_EGG          // Add extra blank lines above the "Games" sub-menu
   #endif
-
+  */
 #endif // HAS_GRAPHICAL_LCD
 
 //
@@ -1601,9 +1602,9 @@
       #define MOVE_Z_IDLE_MULTIPLICATOR 1   // Multiply 1mm by this factor for the move step size.
     #endif
   #endif
-
-  #define BABYSTEP_DISPLAY_TOTAL          // Display total babysteps since last G28
-
+  #if ENABLED(COLOR_UI)
+    #define BABYSTEP_DISPLAY_TOTAL          // Display total babysteps since last G28
+  #endif
   //#define BABYSTEP_ZPROBE_OFFSET          // Combine M851 Z and Babystepping
   #if ENABLED(BABYSTEP_ZPROBE_OFFSET)
     //#define BABYSTEP_HOTEND_Z_OFFSET      // For multiple hotends, babystep relative Z offsets
@@ -1894,7 +1895,7 @@
 // For debug-echo: 128 bytes for the optimal speed.
 // Other output doesn't need to be that speedy.
 // :[0, 2, 4, 8, 16, 32, 64, 128, 256]
-#define TX_BUFFER_SIZE 32
+#define TX_BUFFER_SIZE 0
 
 // Host Receive Buffer Size
 // Without XON/XOFF flow control (see SERIAL_XON_XOFF below) 32 bytes should be enough.
@@ -1938,7 +1939,7 @@
 //#define NO_TIMEOUTS 1000 // Milliseconds
 
 // Some clients will have this feature soon. This could make the NO_TIMEOUTS unnecessary.
-#define ADVANCED_OK
+//#define ADVANCED_OK
 
 // Printrun may have trouble receiving long strings all at once.
 // This option inserts short delays between lines of serial output.
