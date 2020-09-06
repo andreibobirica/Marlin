@@ -822,7 +822,6 @@ void MarlinUI::update() {
 
   #if HAS_LCD_MENU
 
-    
     // Handle any queued Move Axis motion
     manual_move.task();
 
@@ -835,7 +834,7 @@ void MarlinUI::update() {
 
     auto do_click = [&]{
       wait_for_unclick = true;                        //  - Set debounce flag to ignore continous clicks
-      lcd_clicked = !wait_for_user;    //  - Keep the click if not waiting for a user-click
+      lcd_clicked = !wait_for_user;                   //  - Keep the click if not waiting for a user-click
       wait_for_user = false;                          //  - Any click clears wait for user
       quick_feedback();                               //  - Always make a click sound
     };
