@@ -66,8 +66,8 @@ XPT2046 touchIO;
 #define SCREEN_PCT_HEIGHT SCREEN_PCT_HIGH((GRAPHICAL_TFT_UPSCALE) * (LCD_PIXEL_HEIGHT))
 
 // Coordinates in terms of 240-unit-tall touch area
-#define BUTTON_AREA_TOP 198//175
-#define BUTTON_AREA_BOT 240//234
+#define BUTTON_AREA_TOP 175
+#define BUTTON_AREA_BOT 234
 
 TouchButtons touch;
 

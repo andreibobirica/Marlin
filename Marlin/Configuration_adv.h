@@ -1400,9 +1400,9 @@
   // Frivolous Game Options
   /*
   #if DISABLED(COLOR_UI)
-    #define MARLIN_BRICKOUT
-    #define MARLIN_INVADERS
-    #define MARLIN_SNAKE
+    //#define MARLIN_BRICKOUT
+    //#define MARLIN_INVADERS
+    //#define MARLIN_SNAKE
     //#define GAMES_EASTER_EGG          // Add extra blank lines above the "Games" sub-menu
   #endif
   */

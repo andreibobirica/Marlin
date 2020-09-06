@@ -559,12 +559,6 @@ namespace Language_en {
   PROGMEM Language_Str MSG_MMU2_RESET                      = _UxGT("Reset MMU");
   PROGMEM Language_Str MSG_MMU2_RESETTING                  = _UxGT("MMU Resetting...");
   PROGMEM Language_Str MSG_MMU2_EJECT_RECOVER              = _UxGT("Remove, click");
-  //new
-  PROGMEM Language_Str MSG_TOUCHSCREEN                     = _UxGT("Touchscreen");
-  PROGMEM Language_Str MSG_CALIBRATION                     = _UxGT("Calibration");
-  PROGMEM Language_Str MSG_PRINT_ABORTED_FORCE             = _UxGT("Force Stop");
-  PROGMEM Language_Str MSG_REVERSE_RELAYMULTIE             = _UxGT("Reverse Relay");  // Max 17 
-  PROGMEM Language_Str MSG_STANDBYNOZZLE_RELAYMULTIE       = _UxGT("Standby Nozzle");  // Max 17 
 
   PROGMEM Language_Str MSG_MIX                             = _UxGT("Mix");
   PROGMEM Language_Str MSG_MIX_COMPONENT_N                 = _UxGT("Component =");
@@ -584,6 +578,13 @@ namespace Language_en {
   PROGMEM Language_Str MSG_VTOOLS_RESET                    = _UxGT("V-tools Were Reset");
   PROGMEM Language_Str MSG_START_Z                         = _UxGT("Start Z:");
   PROGMEM Language_Str MSG_END_Z                           = _UxGT("  End Z:");
+
+  //new
+  PROGMEM Language_Str MSG_TOUCHSCREEN                     = _UxGT("Touchscreen");
+  PROGMEM Language_Str MSG_CALIBRATION                     = _UxGT("Calibration");
+  PROGMEM Language_Str MSG_PRINT_ABORTED_FORCE             = _UxGT("Force Stop");
+  PROGMEM Language_Str MSG_REVERSE_RELAYMULTIE             = _UxGT("Reverse Relay");  // Max 17 
+  PROGMEM Language_Str MSG_STANDBYNOZZLE_RELAYMULTIE       = _UxGT("Standby Nozzle");  // Max 17 
 
   PROGMEM Language_Str MSG_GAMES                           = _UxGT("Games");
   PROGMEM Language_Str MSG_BRICKOUT                        = _UxGT("Brickout");

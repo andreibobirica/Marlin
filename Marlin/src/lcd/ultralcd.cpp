@@ -822,7 +822,6 @@ void MarlinUI::update() {
 
   #if HAS_LCD_MENU
 
-    
     // Handle any queued Move Axis motion
     manual_move.task();
 
