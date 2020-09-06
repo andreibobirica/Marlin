@@ -2346,7 +2346,7 @@
   #define BUTTON_DELAY_EDIT  75 // (ms) Button repeat delay for edit screens
   #define BUTTON_DELAY_MENU 100 // (ms) Button repeat delay for menus
 
-  //#define TOUCH_SCREEN_CALIBRATION // to adapt
+  #define TOUCH_SCREEN_CALIBRATION // req TFT_COLOR_UI
   //#define TOUCH_CALIBRATION // Include user calibration widget in menus (Alfawise)
 
   #if ENABLED(TS_V11)
