@@ -453,10 +453,10 @@
 
 #if HAS_GRAPHICAL_LCD
   #ifndef LCD_PIXEL_WIDTH
-    #define LCD_PIXEL_WIDTH 128
+    #define LCD_PIXEL_WIDTH 160
   #endif
   #ifndef LCD_PIXEL_HEIGHT
-    #define LCD_PIXEL_HEIGHT 64
+    #define LCD_PIXEL_HEIGHT 80
   #endif
 #endif
 

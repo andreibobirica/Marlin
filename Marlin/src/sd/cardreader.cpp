@@ -140,7 +140,7 @@ CardReader::CardReader() {
   ZERO(workDirParents);
 
   // Disable autostart until card is initialized
-  autostart_index = -1;
+  autostart_index = 0;
 
   #if ENABLED(SDSUPPORT) && PIN_EXISTS(SD_DETECT)
     SET_INPUT_PULLUP(SD_DETECT_PIN);
@@ -433,6 +433,7 @@ void CardReader::manage_media() {
       #endif
     }
 
+    DEBUG_ECHOLNPGM("Update UI...");
     ui.media_changed(old_stat, stat); // Update the UI
 
     if (stat) {

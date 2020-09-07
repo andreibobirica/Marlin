@@ -36,6 +36,10 @@
 
 #include "../lcd/ultralcd.h"
 
+#if ENABLED(RELAYMULTIE)
+  #include "../feature/powerloss.h"
+#endif
+
 #if ENABLED(DWIN_CREALITY_LCD)
   #include "../lcd/dwin/dwin.h"
 #endif
@@ -206,10 +210,12 @@ const char str_t_thermal_runaway[] PROGMEM = STR_T_THERMAL_RUNAWAY,
     NOMORE(speed, 255U);
 
     #if ENABLED(SINGLENOZZLE_STANDBY_FAN)
+    if(recovery.standbyNozzleRELAYMULTIE){
       if (target != active_extruder) {
         if (target < EXTRUDERS) singlenozzle_fan_speed[target] = speed;
         return;
       }
+    }
     #endif
 
     TERN_(SINGLENOZZLE, target = 0); // Always use fan index 0 with SINGLENOZZLE

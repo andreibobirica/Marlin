@@ -402,6 +402,12 @@ void menu_configuration() {
     EDIT_ITEM(bool, MSG_OUTAGE_RECOVERY, &recovery.enabled, recovery.changed);
   #endif
 
+  //Reverse Dual E Logic
+  #if ENABLED(RELAYMULTIE)
+    EDIT_ITEM(bool, MSG_REVERSE_RELAYMULTIE, &recovery.reverseRELAYMULTIE);
+    EDIT_ITEM(bool, MSG_STANDBYNOZZLE_RELAYMULTIE, &recovery.standbyNozzleRELAYMULTIE);
+  #endif
+
   // Preheat configurations
   #if PREHEAT_COUNT && DISABLED(SLIM_LCD_MENUS)
     LOOP_L_N(m, PREHEAT_COUNT)

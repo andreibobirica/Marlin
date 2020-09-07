@@ -583,6 +583,13 @@ namespace Language_en {
   PROGMEM Language_Str MSG_START_Z                         = _UxGT("Start Z:");
   PROGMEM Language_Str MSG_END_Z                           = _UxGT("  End Z:");
 
+  //new
+  PROGMEM Language_Str MSG_TOUCHSCREEN                     = _UxGT("Touchscreen");
+  PROGMEM Language_Str MSG_CALIBRATION                     = _UxGT("Calibration");
+  PROGMEM Language_Str MSG_PRINT_ABORTED_FORCE             = _UxGT("Force Stop");
+  PROGMEM Language_Str MSG_REVERSE_RELAYMULTIE             = _UxGT("Reverse Relay");  // Max 17 
+  PROGMEM Language_Str MSG_STANDBYNOZZLE_RELAYMULTIE       = _UxGT("Standby Nozzle");  // Max 17 
+
   PROGMEM Language_Str MSG_GAMES                           = _UxGT("Games");
   PROGMEM Language_Str MSG_BRICKOUT                        = _UxGT("Brickout");
   PROGMEM Language_Str MSG_INVADERS                        = _UxGT("Invaders");

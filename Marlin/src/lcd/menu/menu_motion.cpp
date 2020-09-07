@@ -141,7 +141,7 @@ void lcd_move_z() { _lcd_move_xyz(GET_TEXT(MSG_MOVE_Z), Z_AXIS); }
     if (ui.should_draw()) {
       TERN_(MULTI_MANUAL, MenuItemBase::init(eindex));
       MenuEditItemBase::draw_edit_screen(
-        GET_TEXT(TERN(MULTI_MANUAL, MSG_MOVE_EN, MSG_MOVE_E)),
+        GET_TEXT(TERN(MULTI_MANUAL, MSG_MOVE_E, MSG_MOVE_E)),
         ftostr41sign(current_position.e
           + TERN0(IS_KINEMATIC, ui.manual_move.offset)
           - TERN0(MANUAL_E_MOVES_RELATIVE, manual_move_e_origin)
@@ -239,7 +239,7 @@ void menu_move() {
   else
     GCODES_ITEM(MSG_AUTO_HOME, G28_STR);
 
-  #if ANY(SWITCHING_EXTRUDER, SWITCHING_NOZZLE, MAGNETIC_SWITCHING_TOOLHEAD)
+  #if ANY(SWITCHING_EXTRUDER, SWITCHING_NOZZLE, MAGNETIC_SWITCHING_TOOLHEAD,RELAYMULTIE)
 
     #if EXTRUDERS >= 4
       switch (active_extruder) {
@@ -292,7 +292,7 @@ void menu_move() {
     #elif MULTI_MANUAL
 
       // Independent extruders with one E-stepper per hotend
-      LOOP_L_N(n, E_MANUAL) SUBMENU_MOVE_E(n);
+      //LOOP_L_N(n, E_MANUAL) SUBMENU_MOVE_E(n);
 
     #endif
 
