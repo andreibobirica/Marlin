@@ -94,6 +94,10 @@
   #include "../feature/powerloss.h"
 #endif
 
+#if ENABLED(RELAYMULTIE)
+  #include "../feature/relaymultie.h"
+#endif
+
 #if HAS_POWER_MONITOR
   #include "../feature/power_monitor.h"
 #endif
@@ -964,11 +968,11 @@ void MarlinSettings::postprocess() {
 
       #if ENABLED(RELAYMULTIE)
         _FIELD_TEST(reverseRELAYMULTIE_enabled);
-        const bool reverseRELAYMULTIE_enabled = TERN(RELAYMULTIE, recovery.reverseRELAYMULTIE, ENABLED(PLR_ENABLED_DEFAULT));
+        const bool reverseRELAYMULTIE_enabled = TERN(RELAYMULTIE, rme.reverseRELAYMULTIE, false);
         EEPROM_WRITE(reverseRELAYMULTIE_enabled);
 
         _FIELD_TEST(standbyNozzleRELAYMULTIE_enabled);
-        const bool standbyNozzleRELAYMULTIE_enabled = TERN(RELAYMULTIE, recovery.standbyNozzleRELAYMULTIE, ENABLED(PLR_ENABLED_DEFAULT));
+        const bool standbyNozzleRELAYMULTIE_enabled = TERN(RELAYMULTIE, rme.standbyNozzleRELAYMULTIE, false);
         EEPROM_WRITE(standbyNozzleRELAYMULTIE_enabled);
       #endif
     }
@@ -1852,11 +1856,11 @@ void MarlinSettings::postprocess() {
 
         #if ENABLED(RELAYMULTIE)
           _FIELD_TEST(reverseRELAYMULTIE_enabled);
-          const bool &reverseRELAYMULTIE_enabled = recovery.reverseRELAYMULTIE;
+          const bool &reverseRELAYMULTIE_enabled = rme.reverseRELAYMULTIE;
           EEPROM_READ(reverseRELAYMULTIE_enabled);
 
           _FIELD_TEST(standbyNozzleRELAYMULTIE_enabled);
-          const bool &standbyNozzleRELAYMULTIE_enabled = recovery.standbyNozzleRELAYMULTIE;
+          const bool &standbyNozzleRELAYMULTIE_enabled = rme.standbyNozzleRELAYMULTIE;
           EEPROM_READ(standbyNozzleRELAYMULTIE_enabled);
         #endif
       }
@@ -3345,11 +3349,11 @@ void MarlinSettings::reset() {
     #if ENABLED(RELAYMULTIE)
       CONFIG_ECHO_HEADING("Reverse Relay Multi E:");
       CONFIG_ECHO_START();
-      SERIAL_ECHOLNPAIR("Reversed: ", int(recovery.reverseRELAYMULTIE));
+      SERIAL_ECHOLNPAIR("Reversed: ", int(rme.reverseRELAYMULTIE));
 
       CONFIG_ECHO_HEADING("Standby Nozzle Relay Multi E:");
       CONFIG_ECHO_START();
-      SERIAL_ECHOLNPAIR("Power: ", int(recovery.standbyNozzleRELAYMULTIE));
+      SERIAL_ECHOLNPAIR("Power: ", int(rme.standbyNozzleRELAYMULTIE));
     #endif
 
     #if ENABLED(FWRETRACT)

@@ -50,7 +50,7 @@
 #endif
 
 #if ENABLED(RELAYMULTIE)
-  #include "../../feature/powerloss.h"
+  #include "../../feature/relaymultie.h"
 #endif
 
 /**
@@ -92,7 +92,7 @@ void GcodeSuite::M104() {
 
   if (got_temp) {
     #if ENABLED(SINGLENOZZLE_STANDBY_TEMP)
-    if(recovery.standbyNozzleRELAYMULTIE){
+    if(rme.standbyNozzleRELAYMULTIE){
       singlenozzle_temp[target_extruder] = temp;
       if (target_extruder != active_extruder) return;
     }
@@ -172,7 +172,7 @@ void GcodeSuite::M109() {
 
   if (got_temp) {
     #if ENABLED(SINGLENOZZLE_STANDBY_TEMP)
-    if(recovery.standbyNozzleRELAYMULTIE){
+    if(rme.standbyNozzleRELAYMULTIE){
       singlenozzle_temp[target_extruder] = temp;
       if (target_extruder != active_extruder) return;
     }

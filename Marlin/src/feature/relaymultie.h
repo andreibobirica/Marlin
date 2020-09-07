@@ -2,8 +2,8 @@
  * Marlin 3D Printer Firmware
  * Copyright (c) 2020 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
- * Based on Sprinter and grbl.
- * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ * Created by Andrei Bobirica.
+ * Copyright (c) 2020 Andrei Bobirica
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,20 +19,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
+#pragma once
 
-#include "../inc/MarlinConfig.h"
+/**
+ * feature/relaymultie.h - Dual Extrusion with a Relay Board
+ */
 
-#if ENABLED(MK2_MULTIPLEXER)
+#include "../inc/MarlinConfigPre.h"
 
-#include "../module/stepper.h"
+class RelayMultiE {
+  public:
+      static bool reverseRELAYMULTIE;
+      static bool standbyNozzleRELAYMULTIE;
+};
 
-void select_multiplexed_stepper(const uint8_t e) {
-  planner.synchronize();
-  disable_e_steppers();
-  WRITE(E_MUX0_PIN, TEST(e, 0) ? HIGH : LOW);
-  WRITE(E_MUX1_PIN, TEST(e, 1) ? HIGH : LOW);
-  WRITE(E_MUX2_PIN, TEST(e, 2) ? HIGH : LOW);
-  safe_delay(100);
-}
+void select_extrusor(const uint8_t e);
+void relaymultie_init();
 
-#endif // MK2_MULTIPLEXER
+extern RelayMultiE rme;
+

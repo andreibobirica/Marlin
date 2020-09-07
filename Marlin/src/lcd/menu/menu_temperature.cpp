@@ -40,7 +40,7 @@
 #endif
 
 #if ENABLED(RELAYMULTIE)
-  #include "../../feature/powerloss.h"
+  #include "../../feature/relaymultie.h"
 #endif
 
 //
@@ -172,7 +172,7 @@ void menu_temperature() {
   #endif
 
   #if ENABLED(SINGLENOZZLE_STANDBY_TEMP)
-  if(recovery.standbyNozzleRELAYMULTIE){
+  if(rme.standbyNozzleRELAYMULTIE){
     LOOP_S_L_N(e, 1, EXTRUDERS)
       EDIT_ITEM_FAST_N(uint16_3, e, MSG_NOZZLE_STANDBY, &singlenozzle_temp[e], 0, thermalManager.heater_maxtemp[0] - (HOTEND_OVERSHOOT));
   }
@@ -219,7 +219,7 @@ void menu_temperature() {
     #if SNFAN(1) || SNFAN(2) || SNFAN(3) || SNFAN(4) || SNFAN(5) || SNFAN(6) || SNFAN(7)
       auto singlenozzle_item = [&](const uint8_t f) {
         editable.uint8 = singlenozzle_fan_speed[f];
-        if(recovery.standbyNozzleRELAYMULTIE){
+        if(rme.standbyNozzleRELAYMULTIE){
         EDIT_ITEM_FAST_N(percent, f, MSG_STORED_FAN_N, &editable.uint8, 0, 255, on_fan_update);
         }
       };

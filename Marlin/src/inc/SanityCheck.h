@@ -1876,7 +1876,7 @@ static_assert(hbm[Z_AXIS] >= 0, "HOMING_BUMP_MM.Z must be greater than or equal 
 /**
  * Test Extruder Stepper Pins
  */
-#if DISABLED(MK2_MULTIPLEXER) // MK2_MULTIPLEXER uses E0 stepper only
+#if DISABLED(MK2_MULTIPLEXER) && DISABLED(RELAYMULTIE) // MK2_MULTIPLEXER AND RELAYMULTIE uses E0 stepper only
   #if E_STEPPERS
     #if !(PINS_EXIST(E0_STEP, E0_DIR) && HAS_E0_ENABLE)
       #error "E0_STEP_PIN, E0_DIR_PIN, or E0_ENABLE_PIN not defined for this board."
