@@ -800,7 +800,7 @@ void MarlinUI::draw_status_screen() {
   //
   #define EXTRAS_2_BASELINE (EXTRAS_BASELINE + 3)
 
-   if (PAGE_CONTAINS(EXTRAS_2_BASELINE - INFO_FONT_ASCENT, EXTRAS_2_BASELINE - 1)) {
+  if (PAGE_CONTAINS(EXTRAS_2_BASELINE - INFO_FONT_ASCENT, EXTRAS_2_BASELINE - 1)) {
     set_font(FONT_MENU);
     lcd_put_wchar(3, EXTRAS_2_BASELINE, LCD_STR_FEEDRATE[0]);
 
@@ -820,7 +820,6 @@ void MarlinUI::draw_status_screen() {
       lcd_put_wchar(93, EXTRAS_2_BASELINE, LCD_STR_FILAM_MUL[0]);
     #endif
   }
-  
   //
   // Status line
   //
