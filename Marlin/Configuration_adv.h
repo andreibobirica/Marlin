@@ -1299,7 +1299,7 @@
   #endif
 
   // Add an optimized binary file transfer mode, initiated with 'M28 B1'
-  #define BINARY_FILE_TRANSFER
+  //#define BINARY_FILE_TRANSFER
 
   /**
    * Set this option to one of the following (or the board's defaults apply):
@@ -3256,6 +3256,9 @@
 
   #define USER_DESC_11 "Disable Cold Extrusion"
   #define USER_GCODE_11 "M302 P0"
+
+  #define USER_DESC_11 "Break or Continue"
+  #define USER_GCODE_11 "M108 \n M117 Force Continue"
 #endif
 
 
