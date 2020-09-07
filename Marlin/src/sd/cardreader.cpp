@@ -433,7 +433,6 @@ void CardReader::manage_media() {
       #endif
     }
 
-    DEBUG_ECHOLNPGM("Update UI...");
     ui.media_changed(old_stat, stat); // Update the UI
 
     if (stat) {

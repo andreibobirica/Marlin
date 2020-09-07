@@ -820,6 +820,7 @@ void MarlinUI::draw_status_screen() {
       lcd_put_wchar(93, EXTRAS_2_BASELINE, LCD_STR_FILAM_MUL[0]);
     #endif
   }
+  
   //
   // Status line
   //
