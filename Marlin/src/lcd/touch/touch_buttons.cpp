@@ -82,7 +82,7 @@ uint8_t TouchButtons::read_buttons() {
     x = uint16_t((uint32_t(x) * XPT2046_X_CALIBRATION) >> 16) + XPT2046_X_OFFSET;
     y = uint16_t((uint32_t(y) * XPT2046_Y_CALIBRATION) >> 16) + XPT2046_Y_OFFSET;
 
-    #if ENABLED(GRAPHICAL_TFT_ROTATE_180)
+    #if (TFT_ROTATION & TFT_ROTATE_180)
       x = TOUCH_SENSOR_WIDTH - x;
       y = TOUCH_SENSOR_HEIGHT - y;
     #endif
@@ -94,6 +94,9 @@ uint8_t TouchButtons::read_buttons() {
            : WITHIN(x, 166, 229) ? EN_B
            : WITHIN(x, 242, 305) ? EN_C
            : 0;
+
+    // Scroll up when sliding finger up to first menu item
+    if (y < SCREEN_PCT_TOP) return TERN(REVERSE_MENU_DIRECTION, EN_B, EN_A);
 
     if ( !WITHIN(x, SCREEN_PCT_LEFT, SCREEN_PCT_LEFT + SCREEN_PCT_WIDTH)
       || !WITHIN(y, SCREEN_PCT_TOP,  SCREEN_PCT_TOP  + SCREEN_PCT_HEIGHT)

@@ -2380,8 +2380,7 @@
 #endif
 
 //
-// TFT display with optional touch screen
-// Color Marlin UI with standard menu system
+// TFT Type - Select your Display type
 //
 #if ENABLED(COLOR_UI)
   #define TFT_320x240
@@ -2391,35 +2390,45 @@
 //#define TFT_480x320_SPI
 
 //
-// Skip autodetect and force specific TFT driver
-// Mandatory for SPI screens with no MISO line
-// Available drivers are: ST7735, ST7789, ST7796, R61505, ILI9328, ILI9341, ILI9488
+// For TFT_GENERIC, you need configure these 3 options:
+//      Driver:     TFT_DRIVER
+//                  Current Drivers are: AUTO, ST7735, ST7789, ST7796, R61505, ILI9328, ILI9341, ILI9488
+//      Resolution: TFT_WIDTH and TFT_HEIGHT
+//      Interface:  TFT_INTERFACE_FSMC or TFT_INTERFACE_SPI
 //
-//#define TFT_DRIVER AUTO
+//#define TFT_GENERIC
+//#define TFT_INTERFACE_FSMC
+#define LONGER_LK_TFT28
 
 //
-// SPI display (MKS Robin Nano V2.0, MKS Gen L V2.0)
-// Upscaled 128x64 Marlin UI
+// TFT UI - User Interface Selection
 //
-//#define SPI_GRAPHICAL_TFT
-
+// Available options are:
+//     TFT_CLASSIC_UI - Emulated DOGM - 128x64 Upscaled
+//     TFT_COLOR_UI   - Marlin Default Menus Touch Friendly, using full TFT capabilities
+//     TFT_LVGL_UI    - A Modern UI using LVGL
 //
-// FSMC display (MKS Robin, Alfawise U20, JGAurora A5S, REXYZ A1, etc.)
-// Upscaled 128x64 Marlin UI
+//     For LVGL_UI, you need the copy the 'assets' folder from the build directory to the
+//     root of your SD card, together with the compiled firmware.
 //
 #if ENABLED(CLASSIC_UI)
   #define FSMC_GRAPHICAL_TFT
 #endif
 
+#if ENABLED(TFT_COLOR_UI)
+  #undef CUSTOM_STATUS_SCREEN_IMAGE
+#endif
+
 //
-// TFT LVGL UI
+// TFT Rotation
 //
-// Using default MKS icons and fonts from: https://git.io/JJvzK
-// Just copy the 'assets' folder from the build directory to the
-// root of your SD card, together with the compiled firmware.
+// Available options are: TFT_ROTATE_90, TFT_ROTATE_180, TFT_ROTATE_270,
+//                        TFT_ROTATE_90_MIRROR_X, TFT_ROTATE_90_MIRROR_Y,
+//                        TFT_ROTATE_180_MIRROR_X, TFT_ROTATE_180_MIRROR_Y,
+//                        TFT_ROTATE_270_MIRROR_X, TFT_ROTATE_270_MIRROR_Y,
+//                        TFT_NO_ROTATION
 //
-//#define TFT_LVGL_UI_FSMC  // Robin nano v1.2 uses FSMC
-//#define TFT_LVGL_UI_SPI   // Robin nano v2.0 uses SPI
+//#define TFT_ROTATION TFT_NO_ROTATION
 
 //=============================================================================
 //============================  Other Controllers  ============================

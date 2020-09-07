@@ -127,12 +127,14 @@
   #define FSMC_CS_PIN                         PD7   // pin 88 = FSMC_NE1
   #define FSMC_RS_PIN                         PD11  // pin 58 A16 Register. Only one address needed
 
-  #define FSMC_DMA_DEV                        DMA2
-  #define FSMC_DMA_CHANNEL                    DMA_CH5
+#define TFT_RESET_PIN                       PC4   // pin 33
+#define TFT_BACKLIGHT_PIN                   PD12  // pin 59
+#define FSMC_CS_PIN                         PD7   // pin 88 = FSMC_NE1
+#define FSMC_RS_PIN                         PD11  // pin 58 A16 Register. Only one address needed
 
-  #define DOGLCD_MOSI                         -1    // Prevent auto-define by Conditionals_post.h
-  #define DOGLCD_SCK                          -1
-  #define LCD_USE_DMA_FSMC                        // Use DMA transfers to send data to the TFT
+#define LCD_USE_DMA_FSMC                          // Use DMA transfers to send data to the TFT
+#define FSMC_DMA_DEV                        DMA2
+#define FSMC_DMA_CHANNEL                 DMA_CH5
 
   #define GRAPHICAL_TFT_UPSCALE                2
   #define TFT_FULL_PIXEL_WIDTH                 320
@@ -154,19 +156,18 @@
   #endif
 #endif
 
-//COLOR_UI
-#if ENABLED(COLOR_UI)
-  #define LCD_RESET_PIN                       PC4   // pin 33
-  #define LCD_BACKLIGHT_PIN                   PD12  // pin 59
-  #define TFT_BACKLIGHT_PIN                   PD12  // pin 59
-  #define TFT_BACKLIGHT                       PD12  // pin 59
+#define TFT_INTERFACE_FSMC
+#define TFT_DRIVER                          AUTO // ILI9341 but, lcd id read op req.
+#define TFT_BUFFER_SIZE                     3200 // TFT_WIDTH x 10
 
-  #define FSMC_CS_PIN                         PD7   // pin 88 = FSMC_NE1
-  #define FSMC_RS_PIN                         PD11  // pin 58 A16 Register. Only one address needed
-  #define FSMC_DMA_DEV                        DMA2
-  #define FSMC_DMA_CHANNEL                    DMA_CH5
-  #define LCD_USE_DMA_FSMC
-  
+//#define TFT_DEFAULT_ORIENTATION TFT_EXCHANGE_XY | TFT_INVERT_X | TFT_INVERT_Y
+
+/**
+ * Note: Alfawise U20/U30 boards DON'T use SPI2, as the hardware designer
+ * mixed up MOSI and MISO pins. SPI is managed in SW, and needs pins
+ * declared below.
+ */
+#if NEED_TOUCH_PINS
   #define TOUCH_CS_PIN                      PB12  // pin 51 SPI2_NSS
   #define TOUCH_SCK_PIN                     PB13  // pin 52
   #define TOUCH_MOSI_PIN                    PB14  // pin 53
