@@ -315,7 +315,7 @@ namespace Language_it {
   PROGMEM Language_Str MSG_B_STEPS                         = LCD_STR_B _UxGT(" Steps/mm");
   PROGMEM Language_Str MSG_C_STEPS                         = LCD_STR_C _UxGT(" Steps/mm");
   PROGMEM Language_Str MSG_E_STEPS                         = _UxGT("E steps/mm");
-  PROGMEM Language_Str MSG_EN_STEPS                        = _UxGT("* Steps/mm");
+  PROGMEM Language_Str MSG_EN_STEPS                        = _UxGT("Steps/mm *");
   PROGMEM Language_Str MSG_TEMPERATURE                     = _UxGT("Temperatura");
   PROGMEM Language_Str MSG_MOTION                          = _UxGT("Movimento");
   PROGMEM Language_Str MSG_FILAMENT                        = _UxGT("Filamento");

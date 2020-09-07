@@ -3218,7 +3218,7 @@
   #define USER_SCRIPT_AUDIBLE_FEEDBACK
   #define USER_SCRIPT_RETURN  // Return to status screen after a script
 
-  #if ENABLED(CLASSIC_UI)
+  #if ENABLED(COLOR_UI)
     #define USER_DESC_1 "Screen Calibration"
     #define USER_GCODE_1 "M117 COLOR UI! \nM995"
   #endif

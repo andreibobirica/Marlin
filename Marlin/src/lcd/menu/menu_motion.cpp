@@ -141,7 +141,7 @@ void lcd_move_z() { _lcd_move_xyz(GET_TEXT(MSG_MOVE_Z), Z_AXIS); }
     if (ui.should_draw()) {
       TERN_(MULTI_MANUAL, MenuItemBase::init(eindex));
       MenuEditItemBase::draw_edit_screen(
-        GET_TEXT(TERN(MULTI_MANUAL, MSG_MOVE_EN, MSG_MOVE_E)),
+        GET_TEXT(TERN(MULTI_MANUAL, MSG_MOVE_E, MSG_MOVE_E)),
         ftostr41sign(current_position.e
           + TERN0(IS_KINEMATIC, ui.manual_move.offset)
           - TERN0(MANUAL_E_MOVES_RELATIVE, manual_move_e_origin)
