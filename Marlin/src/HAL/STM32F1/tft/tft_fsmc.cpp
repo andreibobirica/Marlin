@@ -89,7 +89,7 @@ void TFT_FSMC::Init() {
   uint8_t cs = FSMC_CS_PIN, rs = FSMC_RS_PIN;
   uint32_t controllerAddress;
 
-  #if PIN_EXISTS(TFT_BACKLIGHT)
+  #if PIN_EXISTS(TFT_BACKLIGHT) && ENABLED(CLASSIC_UI)
     OUT_WRITE(TFT_BACKLIGHT_PIN, DISABLED(DELAYED_BACKLIGHT_INIT));
   #endif
 
@@ -99,7 +99,7 @@ void TFT_FSMC::Init() {
     dma_set_priority(FSMC_DMA_DEV, FSMC_DMA_CHANNEL, DMA_PRIORITY_MEDIUM);
   #endif
 
-  #if PIN_EXISTS(TFT_RESET)
+  #if PIN_EXISTS(TFT_RESET) && ENABLED(CLASSIC_UI)
     OUT_WRITE(TFT_RESET_PIN, HIGH);
     delay(100);
   #endif

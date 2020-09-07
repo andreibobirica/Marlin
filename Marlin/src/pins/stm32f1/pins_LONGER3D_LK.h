@@ -176,7 +176,7 @@
   #define TFT_DRIVER                     ILI9341
 
   //BUFFER SIZE
-  #define TFT_BUFFER_SIZE                   14400
+  #define TFT_BUFFER_SIZE                   3200
 #endif
 
 
