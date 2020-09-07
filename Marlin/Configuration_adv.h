@@ -1886,7 +1886,7 @@
 
 // The ASCII buffer for serial input
 #define MAX_CMD_SIZE 96
-#define BUFSIZE 32
+#define BUFSIZE 64
 
 // Transmission to Host Buffer Size
 // To save 386 bytes of PROGMEM (and TX_BUFFER_SIZE+3 bytes of RAM) set to 0.
@@ -3257,8 +3257,8 @@
   #define USER_DESC_11 "Disable Cold Extrusion"
   #define USER_GCODE_11 "M302 P0"
 
-  #define USER_DESC_11 "Break or Continue"
-  #define USER_GCODE_11 "M108 \n M117 Force Continue"
+  #define USER_DESC_12 "Break or Continue"
+  #define USER_GCODE_12 "M108 \n M117 Force Continue"
 #endif
 
 
