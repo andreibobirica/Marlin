@@ -409,8 +409,6 @@ public:
 
       #else
 
-        static constexpr bool drawing_screen = false, first_page = true;
-
         static void set_custom_characters(const HD44780CharSet screen_charset=CHARSET_INFO);
 
         #if ENABLED(LCD_PROGRESS_BAR)
