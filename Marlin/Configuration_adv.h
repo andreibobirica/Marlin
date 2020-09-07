@@ -1602,7 +1602,7 @@
       #define MOVE_Z_IDLE_MULTIPLICATOR 1   // Multiply 1mm by this factor for the move step size.
     #endif
   #endif
-  #if ENABLED(COLOR_UI)
+  #if ENABLED(CLASSIC_UI)
     #define BABYSTEP_DISPLAY_TOTAL          // Display total babysteps since last G28
   #endif
   //#define BABYSTEP_ZPROBE_OFFSET          // Combine M851 Z and Babystepping
@@ -1930,7 +1930,7 @@
  * Currently handles M108, M112, M410, M876
  * NOTE: Not yet implemented for all platforms.
  */
-//#define EMERGENCY_PARSER
+#define EMERGENCY_PARSER
 
 // Bad Serial-connections can miss a received command by sending an 'ok'
 // Therefore some clients abort after 30 seconds in a timeout.
@@ -1939,7 +1939,7 @@
 //#define NO_TIMEOUTS 1000 // Milliseconds
 
 // Some clients will have this feature soon. This could make the NO_TIMEOUTS unnecessary.
-//#define ADVANCED_OK
+#define ADVANCED_OK
 
 // Printrun may have trouble receiving long strings all at once.
 // This option inserts short delays between lines of serial output.
