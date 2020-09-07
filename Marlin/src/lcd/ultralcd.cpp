@@ -846,7 +846,7 @@ void MarlinUI::update() {
           if (ELAPSED(ms, next_button_update_ms)) {
             encoderDiff = (ENCODER_STEPS_PER_MENU_ITEM) * epps * encoderDirection;
             if (touch_buttons & EN_A) encoderDiff *= -1;
-            TERN(AUTO_BED_LEVELING_UBL,external_encoder());
+            TERN_(AUTO_BED_LEVELING_UBL,external_encoder());
             next_button_update_ms = ms + repeat_delay;    // Assume the repeat delay
             if (!wait_for_unclick) {
               next_button_update_ms += 250;               // Longer delay on first press
