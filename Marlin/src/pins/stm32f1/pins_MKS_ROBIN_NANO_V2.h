@@ -272,11 +272,19 @@
   #define TOUCH_BUTTONS_HW_SPI
   #define TOUCH_BUTTONS_HW_SPI_DEVICE          1
 
+  #ifndef TFT_WIDTH
+    #define TFT_WIDTH                        480
+  #endif
+  #ifndef TFT_HEIGHT
+    #define TFT_HEIGHT                       320
+  #endif
+
+  #define LCD_READ_ID                       0xD3
   #define LCD_USE_DMA_SPI
 
 #endif
 
-#if ENABLED(TFT_LVGL_UI) || ENABLED(TFT_COLOR_UI)
+#if ENABLED(TFT_LVGL_UI_SPI)
 
   // LVGL
 
@@ -285,9 +293,7 @@
   #define XPT2046_X_OFFSET                   514
   #define XPT2046_Y_OFFSET                   -24
 
-  #define TFT_BUFFER_SIZE                14400
-
-#elif ENABLED(TFT_CLASSIC_UI)
+#elif ENABLED(SPI_GRAPHICAL_TFT)
 
   // Emulated DOGM SPI
 
@@ -318,6 +324,15 @@
   #define LCD_PINS_ENABLE                   PD13
   #define LCD_PINS_RS                       PC6
 
+#elif ENABLED(TFT_480x320_SPI)
+    #define XPT2046_X_CALIBRATION         -17253
+    #define XPT2046_Y_CALIBRATION          11579
+    #define XPT2046_X_OFFSET                 514
+    #define XPT2046_Y_OFFSET                 -24
+
+    #define TFT_DRIVER                    ST7796
+    #define TFT_BUFFER_SIZE                14400
+
 #endif
 
 #if HAS_SPI_LCD && !HAS_SPI_TFT
@@ -335,10 +350,6 @@
     #define DOGLCD_CS                       PE15
     #define DOGLCD_SCK                      PA5
     #define DOGLCD_MOSI                     PA7
-
-    // Required for MKS_MINI_12864 with this board
-    #define MKS_LCD12864B
-    #undef SHOW_BOOTSCREEN
 
   #else                                           // !MKS_MINI_12864
 

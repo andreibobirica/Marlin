@@ -109,10 +109,8 @@ void lv_draw_about(void) {
       "Firmware: Robin_Pro35"
     #elif MB(MKS_ROBIN_NANO, MKS_ROBIN_NANO_V2)
       "Firmware: Robin_Nano35"
-    #elif defined(CUSTOM_MACHINE_NAME)
-      CUSTOM_MACHINE_NAME
     #else
-      STRING_CONFIG_H_AUTHOR
+      CUSTOM_MACHINE_NAME
     #endif
   );
   lv_obj_align(fw_type, NULL, LV_ALIGN_CENTER, 0, -20);

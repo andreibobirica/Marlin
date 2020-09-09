@@ -32,7 +32,7 @@
 #include "../lcd/ultralcd.h"
 
 #if ENABLED(DWIN_CREALITY_LCD)
-  #include "../lcd/dwin/dwin.h"
+  #include "../lcd/dwin/e3v2/dwin.h"
 #endif
 
 #include "../module/planner.h"        // for synchronize
@@ -433,7 +433,6 @@ void CardReader::manage_media() {
       #endif
     }
 
-    DEBUG_ECHOLNPGM("Update UI...");
     ui.media_changed(old_stat, stat); // Update the UI
 
     if (stat) {

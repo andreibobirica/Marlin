@@ -138,7 +138,7 @@
 #define SHOW_BOOTSCREEN
 
 // Show the bitmap in Marlin/_Bootscreen.h on startup.
-#if ENABLED(CLASSIC_UI)
+#if ENABLED(CLASSIC_UI) && ENABLED(U30)
   #define SHOW_CUSTOM_BOOTSCREEN
 #endif
 
@@ -248,9 +248,7 @@
  * This option only allows the multiplexer to switch on tool-change.
  * Additional options to configure custom E moves are pending.
  */
-#if ENABLED(RELAYMULTIE)
-  #define MK2_MULTIPLEXER
-#endif
+//#define MK2_MULTIPLEXER
 #if ENABLED(MK2_MULTIPLEXER)
   // Override the default DIO selector pins here, if needed.
   // Some pins files may provide defaults for these pins.
@@ -861,7 +859,7 @@
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
 #if ENABLED(RELAYMULTIE)
-  #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 414 , 414 }
+  #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 413.5 , 413.5 }
 #endif
 #if DISABLED(RELAYMULTIE)
   #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 96 }
@@ -1225,15 +1223,9 @@
 // @section extruder
 
 // For direct drive extruder v9 set to true, for geared extruder set to false.
+#define INVERT_E0_DIR false
 #define INVERT_E1_DIR false
-#if DISABLED(RELAYMULTIE)
-  #define INVERT_E0_DIR false
-  #define INVERT_E2_DIR false
-#endif
-#if ENABLED(RELAYMULTIE)
-  #define INVERT_E0_DIR true
-  #define INVERT_E2_DIR true
-#endif
+#define INVERT_E2_DIR false
 #define INVERT_E3_DIR false
 #define INVERT_E4_DIR false
 #define INVERT_E5_DIR false
@@ -1406,7 +1398,7 @@
  * NOTE: Requires a lot of PROGMEM!
  */
 #if DISABLED(ABLEVELING)
-  #define DEBUG_LEVELING_FEATURE
+  //#define DEBUG_LEVELING_FEATURE
 #endif
 
 #if ANY(MESH_BED_LEVELING, AUTO_BED_LEVELING_BILINEAR, AUTO_BED_LEVELING_UBL)
@@ -2380,7 +2372,8 @@
 #endif
 
 //
-// TFT Type - Select your Display type
+// TFT display with optional touch screen
+// Color Marlin UI with standard menu system
 //
 #if ENABLED(COLOR_UI)
   #define TFT_320x240
@@ -2390,45 +2383,35 @@
 //#define TFT_480x320_SPI
 
 //
-// For TFT_GENERIC, you need configure these 3 options:
-//      Driver:     TFT_DRIVER
-//                  Current Drivers are: AUTO, ST7735, ST7789, ST7796, R61505, ILI9328, ILI9341, ILI9488
-//      Resolution: TFT_WIDTH and TFT_HEIGHT
-//      Interface:  TFT_INTERFACE_FSMC or TFT_INTERFACE_SPI
+// Skip autodetect and force specific TFT driver
+// Mandatory for SPI screens with no MISO line
+// Available drivers are: ST7735, ST7789, ST7796, R61505, ILI9328, ILI9341, ILI9488
 //
-//#define TFT_GENERIC
-//#define TFT_INTERFACE_FSMC
-#define LONGER_LK_TFT28
+//#define TFT_DRIVER AUTO
 
 //
-// TFT UI - User Interface Selection
+// SPI display (MKS Robin Nano V2.0, MKS Gen L V2.0)
+// Upscaled 128x64 Marlin UI
 //
-// Available options are:
-//     TFT_CLASSIC_UI - Emulated DOGM - 128x64 Upscaled
-//     TFT_COLOR_UI   - Marlin Default Menus Touch Friendly, using full TFT capabilities
-//     TFT_LVGL_UI    - A Modern UI using LVGL
+//#define SPI_GRAPHICAL_TFT
+
 //
-//     For LVGL_UI, you need the copy the 'assets' folder from the build directory to the
-//     root of your SD card, together with the compiled firmware.
+// FSMC display (MKS Robin, Alfawise U20, JGAurora A5S, REXYZ A1, etc.)
+// Upscaled 128x64 Marlin UI
 //
 #if ENABLED(CLASSIC_UI)
   #define FSMC_GRAPHICAL_TFT
 #endif
 
-#if ENABLED(TFT_COLOR_UI)
-  #undef CUSTOM_STATUS_SCREEN_IMAGE
-#endif
-
 //
-// TFT Rotation
+// TFT LVGL UI
 //
-// Available options are: TFT_ROTATE_90, TFT_ROTATE_180, TFT_ROTATE_270,
-//                        TFT_ROTATE_90_MIRROR_X, TFT_ROTATE_90_MIRROR_Y,
-//                        TFT_ROTATE_180_MIRROR_X, TFT_ROTATE_180_MIRROR_Y,
-//                        TFT_ROTATE_270_MIRROR_X, TFT_ROTATE_270_MIRROR_Y,
-//                        TFT_NO_ROTATION
+// Using default MKS icons and fonts from: https://git.io/JJvzK
+// Just copy the 'assets' folder from the build directory to the
+// root of your SD card, together with the compiled firmware.
 //
-//#define TFT_ROTATION TFT_NO_ROTATION
+//#define TFT_LVGL_UI_FSMC  // Robin nano v1.2 uses FSMC
+//#define TFT_LVGL_UI_SPI   // Robin nano v2.0 uses SPI
 
 //=============================================================================
 //============================  Other Controllers  ============================

@@ -47,7 +47,7 @@
 
 #include "../../lcd/ultralcd.h"
 #if ENABLED(DWIN_CREALITY_LCD)
-  #include "../../lcd/dwin/dwin.h"
+  #include "../../lcd/dwin/e3v2/dwin.h"
 #endif
 
 #if HAS_L64XX                         // set L6470 absolute position registers to counts
@@ -207,7 +207,6 @@ void GcodeSuite::G28() {
     DualXMode IDEX_saved_mode = dual_x_carriage_mode;
   #endif
 
-  //Marlin developer Mode don't home after power loss recovery
   #if ENABLED(MARLIN_DEV_MODE)
     if (parser.seen('S')) {
       LOOP_XYZ(a) set_axis_is_at_home((AxisEnum)a);

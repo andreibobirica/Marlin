@@ -72,9 +72,9 @@
 #endif
 
 #if ENABLED(DWIN_CREALITY_LCD)
-  #include "lcd/dwin/dwin.h"
+  #include "lcd/dwin/e3v2/dwin.h"
   #include "lcd/dwin/dwin_lcd.h"
-  #include "lcd/dwin/rotary_encoder.h"
+  #include "lcd/dwin/e3v2/rotary_encoder.h"
 #endif
 
 #if ENABLED(IIC_BL24CXX_EEPROM)
@@ -95,6 +95,10 @@
 
 #if ENABLED(EXTERNAL_CLOSED_LOOP_CONTROLLER)
   #include "feature/closedloop.h"
+#endif
+
+#if ENABLED(RELAYMULTIE)
+  #include "feature/relaymultie.h"
 #endif
 
 #if HAS_I2C_DIGIPOT
@@ -909,16 +913,11 @@ void setup() {
   #endif
 
   #if NUM_SERIAL > 0
-    #ifdef OVERCLOCK
-      #define CLOCKRATE ((BAUDRATE*OC_BASE_MHZ)/OC_TARGET_MHZ)
-    #else
-      #define CLOCKRATE BAUDRATE
-    #endif
-    MYSERIAL0.begin(CLOCKRATE);
+    MYSERIAL0.begin(BAUDRATE);
     uint32_t serial_connect_timeout = millis() + 1000UL;
     while (!MYSERIAL0 && PENDING(millis(), serial_connect_timeout)) { /*nada*/ }
     #if HAS_MULTI_SERIAL
-      MYSERIAL1.begin(CLOCKRATE);
+      MYSERIAL1.begin(BAUDRATE);
       serial_connect_timeout = millis() + 1000UL;
       while (!MYSERIAL1 && PENDING(millis(), serial_connect_timeout)) { /*nada*/ }
     #endif
@@ -1232,24 +1231,13 @@ void setup() {
     SETUP_RUN(password.lock_machine());      // Will not proceed until correct password provided
   #endif
 
+  #if ENABLED(RELAYMULTIE)
+    SETUP_RUN(relaymultie_init());
+  #endif
+
   marlin_state = MF_RUNNING;
 
   SETUP_LOG("setup() completed.");
-
-  //Multi E Setup
-  #if ENABLED(RELAYMULTIE)
-    //RELAY State
-    bool state = recovery.reverseRELAYMULTIE;
-    planner.synchronize();
-    disable_e_steppers();
-    //Azionamento Relay
-    const pin_t pin = GET_PIN_MAP_PIN(PD13);//PIN relay Digitale
-    if (pin_is_protected(pin)) return protected_pin_err();//stop if pin protected
-    safe_delay(100);//Wait sicurezza
-    pinMode(pin, OUTPUT);//set pin to output
-    extDigitalWrite(pin, state);
-    SERIAL_ECHOLNPAIR("Relay Reversed Logic checked: ", state);
-  #endif
 }
 
 /**

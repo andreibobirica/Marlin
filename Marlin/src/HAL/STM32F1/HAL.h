@@ -33,13 +33,6 @@
 #include "../shared/math_32bit.h"
 #include "../shared/HAL_SPI.h"
 
-#ifdef OVERCLOCK
-  #if F_CPU != (1000000U * OC_TARGET_MHZ)
-    #undef F_CPU
-    #define F_CPU (1000000U * OC_TARGET_MHZ)
-  #endif
-#endif
-
 #include "fastio.h"
 #include "watchdog.h"
 
@@ -52,6 +45,8 @@
 #ifdef USE_USB_COMPOSITE
   #include "msc_sd.h"
 #endif
+
+#include "MarlinSerial.h"
 
 // ------------------------
 // Defines
@@ -71,17 +66,6 @@
   #else
     #define UsbSerial MarlinCompositeSerial
   #endif
-  #define MSerial1  Serial1
-  #define MSerial2  Serial2
-  #define MSerial3  Serial3
-  #define MSerial4  Serial4
-  #define MSerial5  Serial5
-#else
-  #define MSerial1  Serial
-  #define MSerial2  Serial1
-  #define MSerial3  Serial2
-  #define MSerial4  Serial3
-  #define MSerial5  Serial4
 #endif
 
 #if SERIAL_PORT == 0

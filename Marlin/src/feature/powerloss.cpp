@@ -33,12 +33,6 @@
 
 bool PrintJobRecovery::enabled; // Initialized by settings.load()
 
-//RELAYMULTIE implementation 
-#if ENABLED(RELAYMULTIE)
-  bool PrintJobRecovery::reverseRELAYMULTIE = false;  //NON fa parte del runout, è usato per il doppio E
-  bool PrintJobRecovery::standbyNozzleRELAYMULTIE = false;  //NON fa parte del runout, è usato per il standby Nozzle
-#endif
-
 SdFile PrintJobRecovery::file;
 job_recovery_info_t PrintJobRecovery::info;
 const char PrintJobRecovery::filename[5] = "/PLR";

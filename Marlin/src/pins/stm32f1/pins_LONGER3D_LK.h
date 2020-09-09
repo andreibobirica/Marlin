@@ -40,7 +40,7 @@
 #define X_MIN_PIN                           PC1   // pin 16
 #define X_MAX_PIN                           PC0   // pin 15 (Filament sensor on Alfawise setup)
 #define Y_MIN_PIN                           PC15  // pin 9
-#define Y_MAX_PIN                           PC14  // pin 8 (Unused in stock Alfawise setup)
+#define Y_MAX_PIN                           -1  // pin 8 (Unused in stock Alfawise setup)
 #define Z_MIN_PIN                           PE6   // pin 5 Standard Endstop or Z_Probe endstop function
 #define Z_MAX_PIN                           PE5   // pin 4 (Unused in stock Alfawise setup)
                                  // May be used for BLTouch Servo function on older variants (<= V08)
@@ -89,10 +89,10 @@
 #define FAN_MIN_PWM                           35  // Fan will not start in 1-30 range
 #define FAN_MAX_PWM                          255
 
-//#define BEEPER_PIN                        PD13  // pin 60 (Servo PWM output 5V/GND on Board V0G+) made for BL-Touch sensor
-                                 // Can drive a PC Buzzer, if connected between PWM and 5V pins
+#define BEEPER_PIN                        PC14  // pin 60 (Servo PWM output 5V/GND on Board V0G+) made for BL-Touch sensor
+                                          // Can drive a PC Buzzer, if connected between PWM and 5V pins
 
-#define LED_PIN                             PC2   // pin 17
+#define LED_PIN                           PC2   // pin 17
 
 //
 // PWM for a servo probe
@@ -108,7 +108,7 @@
 
 /**
  * Note: Alfawise screens use various TFT controllers. Supported screens
- * are based on the ILI9341, ILI9328 and ST7798V. Define init sequences for
+ * are based on the MAIN=ILI9341, ILI9328 and ST7798V. Define init sequences for
  * other screens in u8g_dev_tft_320x240_upscale_from_128x64.cpp
  *
  * If the screen stays white, disable 'LCD_RESET_PIN' to let the bootloader
@@ -117,43 +117,71 @@
  * Setting an 'LCD_RESET_PIN' may cause a flicker when entering the LCD menu
  * because Marlin uses the reset as a failsafe to revive a glitchy LCD.
  */
+//CLASSIC_UI
+#if ENABLED(CLASSIC_UI)
+  #define LCD_RESET_PIN                       PC4   // pin 33
+  #define LCD_BACKLIGHT_PIN                   PD12  // pin 59
+  #define TFT_BACKLIGHT_PIN                   PD12  // pin 59
+  #define TFT_BACKLIGHT                       PD12  // pin 59
+  
+  #define FSMC_CS_PIN                         PD7   // pin 88 = FSMC_NE1
+  #define FSMC_RS_PIN                         PD11  // pin 58 A16 Register. Only one address needed
 
-#define TFT_RESET_PIN                       PC4   // pin 33
-#define TFT_BACKLIGHT_PIN                   PD12  // pin 59
-#define FSMC_CS_PIN                         PD7   // pin 88 = FSMC_NE1
-#define FSMC_RS_PIN                         PD11  // pin 58 A16 Register. Only one address needed
+  #define FSMC_DMA_DEV                        DMA2
+  #define FSMC_DMA_CHANNEL                    DMA_CH5
 
-#define LCD_USE_DMA_FSMC                          // Use DMA transfers to send data to the TFT
-#define FSMC_DMA_DEV                        DMA2
-#define FSMC_DMA_CHANNEL                 DMA_CH5
+  #define DOGLCD_MOSI                         -1    // Prevent auto-define by Conditionals_post.h
+  #define DOGLCD_SCK                          -1
+  #define LCD_USE_DMA_FSMC                        // Use DMA transfers to send data to the TFT
 
-#define DOGLCD_MOSI                         -1    // Prevent auto-define by Conditionals_post.h
-#define DOGLCD_SCK                          -1
+  #define GRAPHICAL_TFT_UPSCALE                2
+  #define TFT_FULL_PIXEL_WIDTH                 320
+  #define TFT_FULL_PIXEL_HEIGHT                240
+  #define TFT_PIXEL_OFFSET_X                    0
+  #define TFT_PIXEL_OFFSET_Y                    0
 
-#define GRAPHICAL_TFT_UPSCALE                  2
-#define TFT_WIDTH                            320
-#define TFT_HEIGHT                           240
-#define TFT_PIXEL_OFFSET_X                    32
-#define TFT_PIXEL_OFFSET_Y                    32
+  /**
+  * Note: Alfawise U20/U30 boards DON'T use SPI2, as the hardware designer
+  * mixed up MOSI and MISO pins. SPI is managed in SW, and needs pins
+  * declared below.
+  */
+  #if NEED_TOUCH_PINS
+    #define TOUCH_CS_PIN                      PB12  // pin 51 SPI2_NSS
+    #define TOUCH_SCK_PIN                     PB13  // pin 52
+    #define TOUCH_MOSI_PIN                    PB14  // pin 53
+    #define TOUCH_MISO_PIN                    PB15  // pin 54
+    #define TOUCH_INT_PIN                     PC6   // pin 63 (PenIRQ coming from ADS7843)
+  #endif
+#endif
 
-#define TFT_INTERFACE_FSMC
-#define TFT_DRIVER                          AUTO // ILI9341 but, lcd id read op req.
-#define TFT_BUFFER_SIZE                     3200 // TFT_WIDTH x 10
+//COLOR_UI
+#if ENABLED(COLOR_UI)
+  #define LCD_RESET_PIN                       PC4   // pin 33
+  #define LCD_BACKLIGHT_PIN                   PD12  // pin 59
+  #define TFT_BACKLIGHT_PIN                   PD12  // pin 59
+  #define TFT_BACKLIGHT                       PD12  // pin 59
 
-//#define TFT_DEFAULT_ORIENTATION TFT_EXCHANGE_XY | TFT_INVERT_X | TFT_INVERT_Y
-
-/**
- * Note: Alfawise U20/U30 boards DON'T use SPI2, as the hardware designer
- * mixed up MOSI and MISO pins. SPI is managed in SW, and needs pins
- * declared below.
- */
-#if NEED_TOUCH_PINS
+  #define FSMC_CS_PIN                         PD7   // pin 88 = FSMC_NE1
+  #define FSMC_RS_PIN                         PD11  // pin 58 A16 Register. Only one address needed
+  #define FSMC_DMA_DEV                        DMA2
+  #define FSMC_DMA_CHANNEL                    DMA_CH5
+  #define LCD_USE_DMA_FSMC
+  
   #define TOUCH_CS_PIN                      PB12  // pin 51 SPI2_NSS
   #define TOUCH_SCK_PIN                     PB13  // pin 52
   #define TOUCH_MOSI_PIN                    PB14  // pin 53
   #define TOUCH_MISO_PIN                    PB15  // pin 54
-  #define TOUCH_INT_PIN                     PC6   // pin 63 (PenIRQ coming from ADS7843)
+  
+  //TFT DRIVER    //NOT CONSIDERED = LCD_READ_ID 0x04
+  #define TFT_DRIVER                     ILI9341
+
+  //BUFFER SIZE
+  #define TFT_BUFFER_SIZE                   3200
 #endif
+
+
+
+
 
 //
 // Persistent Storage

@@ -558,14 +558,6 @@ namespace Language_it {
   PROGMEM Language_Str MSG_MMU2_RESETTING                  = _UxGT("Azzeramento MMU...");
   PROGMEM Language_Str MSG_MMU2_EJECT_RECOVER              = _UxGT("Rimuovi, click");
 
-    //new
-  PROGMEM Language_Str MSG_TOUCHSCREEN                     = _UxGT("Touchscreen");
-  PROGMEM Language_Str MSG_CALIBRATION                     = _UxGT("Calibration");
-  PROGMEM Language_Str MSG_PRINT_ABORTED_FORCE             = _UxGT("Force Stop");
-  PROGMEM Language_Str MSG_REVERSE_RELAYMULTIE             = _UxGT("Reverse Relay");  // Max 17
-  PROGMEM Language_Str MSG_STANDBYNOZZLE_RELAYMULTIE       = _UxGT("Standby Nozzle");  // Max 17 
-  PROGMEM Language_Str MSG_SD_INIT_FAIL                    = _UxGT("SD Init Fail");
-
   PROGMEM Language_Str MSG_MIX                             = _UxGT("Miscela");
   PROGMEM Language_Str MSG_MIX_COMPONENT_N                 = _UxGT("Componente =");
   PROGMEM Language_Str MSG_MIXER                           = _UxGT("Miscelatore");

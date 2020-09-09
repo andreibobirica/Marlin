@@ -38,6 +38,10 @@
   #include "../../feature/powerloss.h"
 #endif
 
+#if ENABLED(RELAYMULTIE)
+  #include "../../feature/relaymultie.h"
+#endif
+
 #if HAS_BED_PROBE
   #include "../../module/probe.h"
   #if ENABLED(BLTOUCH)
@@ -404,8 +408,8 @@ void menu_configuration() {
 
   //Reverse Dual E Logic
   #if ENABLED(RELAYMULTIE)
-    EDIT_ITEM(bool, MSG_REVERSE_RELAYMULTIE, &recovery.reverseRELAYMULTIE);
-    EDIT_ITEM(bool, MSG_STANDBYNOZZLE_RELAYMULTIE, &recovery.standbyNozzleRELAYMULTIE);
+    EDIT_ITEM(bool, MSG_REVERSE_RELAYMULTIE, &rme.reverseRELAYMULTIE);
+    EDIT_ITEM(bool, MSG_STANDBYNOZZLE_RELAYMULTIE, &rme.standbyNozzleRELAYMULTIE);
   #endif
 
   // Preheat configurations
