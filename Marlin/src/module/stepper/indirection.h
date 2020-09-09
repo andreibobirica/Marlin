@@ -426,6 +426,11 @@ void reset_stepper_drivers();    // Called by settings.load / settings.reset
   #define E_STEP_WRITE(E,V) E0_STEP_WRITE(V)
   #define   NORM_E_DIR(E)   do{ E0_DIR_WRITE(TEST(E, 0) ? !INVERT_E0_DIR:  INVERT_E0_DIR); }while(0)
   #define    REV_E_DIR(E)   do{ E0_DIR_WRITE(TEST(E, 0) ?  INVERT_E0_DIR: !INVERT_E0_DIR); }while(0)
+  
+#elif ENABLED(RELAYMULTIE) // One multiplexed stepper driver, reversed on odd index
+  #define E_STEP_WRITE(E,V) E0_STEP_WRITE(V)
+  #define   NORM_E_DIR(E)   do{ E0_DIR_WRITE(TEST(E, 0) ? INVERT_E0_DIR:  !INVERT_E0_DIR); }while(0)
+  #define    REV_E_DIR(E)   do{ E0_DIR_WRITE(TEST(E, 0) ?  !INVERT_E0_DIR: INVERT_E0_DIR); }while(0)
 
 #elif E_STEPPERS > 1
 

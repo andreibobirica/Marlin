@@ -36,10 +36,6 @@
 #define DEBUG_OUT ENABLED(DEBUG_TOOL_CHANGE)
 #include "../core/debug_out.h"
 
-#if ENABLED(RELAYMULTIE)
-  #include "../feature/powerloss.h"
-#endif
-
 #if EXTRUDERS > 1
   toolchange_settings_t toolchange_settings;  // Initialized by settings.load()
 #endif
@@ -75,6 +71,10 @@
 
 #if ENABLED(MK2_MULTIPLEXER)
   #include "../feature/snmm.h"
+#endif
+
+#if ENABLED(RELAYMULTIE)
+  #include "../feature/relaymultie.h"
 #endif
 
 #if ENABLED(MIXING_EXTRUDER)
@@ -919,9 +919,7 @@ void tool_change(const uint8_t new_tool, bool no_move/*=false*/) {
 
     if (new_tool != old_tool) {
       destination = current_position;
-      #if ENABLED(RELAYMULTIE)
       SERIAL_ECHOLNPGM("Asked for a different T");
-      #endif
 
       #if BOTH(TOOLCHANGE_FILAMENT_SWAP, HAS_FAN) && TOOLCHANGE_FS_FAN >= 0
         // Store and stop fan. Restored on any exit.
@@ -1062,14 +1060,14 @@ void tool_change(const uint8_t new_tool, bool no_move/*=false*/) {
       if (should_move) {
 
         #if BOTH(HAS_FAN, SINGLENOZZLE_STANDBY_FAN)
-        if(recovery.standbyNozzleRELAYMULTIE){
+        if(rme.standbyNozzleRELAYMULTIE){
           singlenozzle_fan_speed[old_tool] = thermalManager.fan_speed[0];
           thermalManager.fan_speed[0] = singlenozzle_fan_speed[new_tool];
         }
         #endif
 
         #if ENABLED(SINGLENOZZLE_STANDBY_TEMP)
-        if(recovery.standbyNozzleRELAYMULTIE){
+        if(rme.standbyNozzleRELAYMULTIE){
           singlenozzle_temp[old_tool] = thermalManager.temp_hotend[0].target;
           if (singlenozzle_temp[new_tool] && singlenozzle_temp[new_tool] != singlenozzle_temp[old_tool]) {
             thermalManager.setTargetHotend(singlenozzle_temp[new_tool], 0);
@@ -1191,6 +1189,11 @@ void tool_change(const uint8_t new_tool, bool no_move/*=false*/) {
     #if ENABLED(MK2_MULTIPLEXER)
       if (new_tool >= E_STEPPERS) return invalid_extruder_error(new_tool);
       select_multiplexed_stepper(new_tool);
+    #endif
+
+    #if ENABLED(RELAYMULTIE)
+      if (new_tool >= E_STEPPERS) return invalid_extruder_error(new_tool);
+      select_extrusor(new_tool);
     #endif
 
     #if DO_SWITCH_EXTRUDER

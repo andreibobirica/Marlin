@@ -138,7 +138,7 @@
 #define SHOW_BOOTSCREEN
 
 // Show the bitmap in Marlin/_Bootscreen.h on startup.
-#if ENABLED(CLASSIC_UI)
+#if ENABLED(CLASSIC_UI) && ENABLED(U30)
   #define SHOW_CUSTOM_BOOTSCREEN
 #endif
 
@@ -248,9 +248,7 @@
  * This option only allows the multiplexer to switch on tool-change.
  * Additional options to configure custom E moves are pending.
  */
-#if ENABLED(RELAYMULTIE)
-  #define MK2_MULTIPLEXER
-#endif
+//#define MK2_MULTIPLEXER
 #if ENABLED(MK2_MULTIPLEXER)
   // Override the default DIO selector pins here, if needed.
   // Some pins files may provide defaults for these pins.
@@ -861,7 +859,7 @@
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
 #if ENABLED(RELAYMULTIE)
-  #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 414 , 414 }
+  #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 413.5 , 413.5 }
 #endif
 #if DISABLED(RELAYMULTIE)
   #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 96 }
@@ -1225,15 +1223,9 @@
 // @section extruder
 
 // For direct drive extruder v9 set to true, for geared extruder set to false.
+#define INVERT_E0_DIR false
 #define INVERT_E1_DIR false
-#if DISABLED(RELAYMULTIE)
-  #define INVERT_E0_DIR false
-  #define INVERT_E2_DIR false
-#endif
-#if ENABLED(RELAYMULTIE)
-  #define INVERT_E0_DIR true
-  #define INVERT_E2_DIR true
-#endif
+#define INVERT_E2_DIR false
 #define INVERT_E3_DIR false
 #define INVERT_E4_DIR false
 #define INVERT_E5_DIR false
@@ -1406,7 +1398,7 @@
  * NOTE: Requires a lot of PROGMEM!
  */
 #if DISABLED(ABLEVELING)
-  #define DEBUG_LEVELING_FEATURE
+  //#define DEBUG_LEVELING_FEATURE
 #endif
 
 #if ANY(MESH_BED_LEVELING, AUTO_BED_LEVELING_BILINEAR, AUTO_BED_LEVELING_UBL)

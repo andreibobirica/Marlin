@@ -19,20 +19,32 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
+#pragma once
 
-#include "../inc/MarlinConfig.h"
+#include <HardwareSerial.h>
+#include <WString.h>
 
-#if ENABLED(MK2_MULTIPLEXER)
+#include "../../inc/MarlinConfigPre.h"
+#if ENABLED(EMERGENCY_PARSER)
+  #include "../../feature/e_parser.h"
+#endif
 
-#include "../module/stepper.h"
+class MarlinSerial : public HardwareSerial {
+public:
+  MarlinSerial(struct usart_dev *usart_device, uint8 tx_pin, uint8 rx_pin) :
+    HardwareSerial(usart_device, tx_pin, rx_pin)
+    #if ENABLED(EMERGENCY_PARSER)
+      , emergency_state(EmergencyParser::State::EP_RESET)
+    #endif
+    { }
 
-void select_multiplexed_stepper(const uint8_t e) {
-  planner.synchronize();
-  disable_e_steppers();
-  WRITE(E_MUX0_PIN, TEST(e, 0) ? HIGH : LOW);
-  WRITE(E_MUX1_PIN, TEST(e, 1) ? HIGH : LOW);
-  WRITE(E_MUX2_PIN, TEST(e, 2) ? HIGH : LOW);
-  safe_delay(100);
-}
+  #if ENABLED(EMERGENCY_PARSER)
+    EmergencyParser::State emergency_state;
+  #endif
+};
 
-#endif // MK2_MULTIPLEXER
+extern MarlinSerial MSerial1;
+extern MarlinSerial MSerial2;
+extern MarlinSerial MSerial3;
+extern MarlinSerial MSerial4;
+extern MarlinSerial MSerial5;
