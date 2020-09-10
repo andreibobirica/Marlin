@@ -49,6 +49,10 @@
   #error "Seriously? High resolution TFT screen without menu?"
 #endif
 
+#if HAS_PRINT_PROGRESS
+  #include "../../module/printcounter.h"
+#endif
+
 static bool draw_menu_navigation = false;
 
 void MarlinUI::tft_idle() {
@@ -252,6 +256,7 @@ void MarlinUI::draw_status_screen() {
     }
   }
 
+
   // coordinates
   tft.canvas(4, 103, 312, 24);
   tft.set_background(COLOR_BACKGROUND);
@@ -261,17 +266,33 @@ void MarlinUI::draw_status_screen() {
   uint16_t offset;
   bool is_homed;
 
-  tft.add_text( 10, 3, COLOR_AXIS_HOMED , "X");
-  tft.add_text(127, 3, COLOR_AXIS_HOMED , "Y");
+  //Show E Total
+  const bool show_e_total = TERN0(LCD_SHOW_E_TOTAL, printingIsActive() || marlin_state == MF_SD_COMPLETE);
+
+  if(show_e_total){
+    tft.add_text( 10, 3, COLOR_AXIS_HOMED , "E");
+  }else{
+    tft.add_text( 10, 3, COLOR_AXIS_HOMED , "X");
+    tft.add_text(127, 3, COLOR_AXIS_HOMED , "Y");
+  }
   tft.add_text(219, 3, COLOR_AXIS_HOMED , "Z");
 
-  is_homed = TEST(axis_homed, X_AXIS);
-  tft_string.set(blink & !is_homed ? "?" : ftostr4sign(LOGICAL_X_POSITION(current_position.x)));
-  tft.add_text( 68 - tft_string.width(), 3, is_homed ? COLOR_AXIS_HOMED : COLOR_AXIS_NOT_HOMED, tft_string);
+  if(!show_e_total){
+    is_homed = TEST(axis_homed, X_AXIS);
+    tft_string.set(blink & !is_homed ? "?" : ftostr4sign(LOGICAL_X_POSITION(current_position.x)));
+    tft.add_text( 68 - tft_string.width(), 3, is_homed ? COLOR_AXIS_HOMED : COLOR_AXIS_NOT_HOMED, tft_string);
 
-  is_homed = TEST(axis_homed, Y_AXIS);
-  tft_string.set(blink & !is_homed ? "?" : ftostr4sign(LOGICAL_Y_POSITION(current_position.y)));
-  tft.add_text(185 - tft_string.width(), 3, is_homed ? COLOR_AXIS_HOMED : COLOR_AXIS_NOT_HOMED, tft_string);
+    is_homed = TEST(axis_homed, Y_AXIS);
+    tft_string.set(blink & !is_homed ? "?" : ftostr4sign(LOGICAL_Y_POSITION(current_position.y)));
+    tft.add_text(185 - tft_string.width(), 3, is_homed ? COLOR_AXIS_HOMED : COLOR_AXIS_NOT_HOMED, tft_string);
+  }else{
+    is_homed = TEST(axis_homed, E_AXIS);
+    const uint8_t escale = e_move_accumulator >= 100000.0f ? 10 : 1; // After 100m switch to cm
+    static char xstring[12];
+    sprintf(xstring, PSTR("%ld%cm"), uint32_t(_MAX(e_move_accumulator, 0.0f)) / escale, escale == 10 ? 'c' : 'm'); // 1234567mm
+    tft_string.set(xstring);
+    tft.add_text(150 - tft_string.width(), 3, is_homed ? COLOR_AXIS_HOMED : COLOR_AXIS_NOT_HOMED, tft_string);
+  }
 
   is_homed = TEST(axis_homed, Z_AXIS);
   if (blink & !is_homed) {
@@ -309,15 +330,101 @@ void MarlinUI::draw_status_screen() {
   tft.add_text(32, 6, color , tft_string);
   TERN_(TOUCH_SCREEN, touch.add_control(FLOWRATE, 170, 136, 80, 32, active_extruder));
 
+  //REMAINING TIME AND ELAPSED TIME
+  #define SHOW_REMAINING_TIME
+  #define ROTATE_PROGRESS_DISPLAY
+  #define LCD_SET_PROGRESS_MANUALLY
+
+  //Initializing Variables
+  #if HAS_PRINT_PROGRESS
+    static char progress_string[5];
+    static uint8_t lastElapsed = 0xFF, lastProgress = 0xFF;
+    static char elapsed_string[16];
+    static char estimation_string[10];
+    static uint8_t progress_state = 0;
+    static bool prev_blink = 0;
+  #endif
+
+      // Progress / elapsed / estimation updates and string formatting to avoid float math on each LCD draw
+  #if HAS_PRINT_PROGRESS
+    const progress_t progress_tre = TERN(HAS_PRINT_PROGRESS_PERMYRIAD, get_progress_permyriad, get_progress_percent)();
+    duration_t elapsed = print_job_timer.duration();
+    const uint8_t p = progress_tre & 0xFF, ev = elapsed.value & 0xFF;
+    if (p != lastProgress) {
+      lastProgress = p;
+      if ( progress_tre == 0) {
+        progress_string[0] = '\0';
+        estimation_string[0] = '\0';
+      }
+      else
+        strcpy(progress_string, TERN(PRINT_PROGRESS_SHOW_DECIMALS, permyriadtostr4( progress_tre ), ui8tostr3rj( progress_tre  / (PROGRESS_SCALE))));
+    }
+
+    constexpr bool can_show_days = true;
+    if (ev != lastElapsed) {
+      lastElapsed = ev;
+      elapsed.toDigital(elapsed_string, can_show_days && elapsed.value >= 60*60*24L);
+      if (!(ev & 0x3)) {
+        uint32_t timeval = (0
+          #if BOTH(LCD_SET_PROGRESS_MANUALLY, USE_M73_REMAINING_TIME)
+            + get_remaining_time()
+          #endif
+        );
+        if (!timeval && progress_tre > 0) timeval = elapsed.value * (100 * (PROGRESS_SCALE) - progress_tre) /  progress_tre;
+        if (!timeval) {
+          estimation_string[0] = '\0';
+        }
+        else {
+          duration_t estimation = timeval;
+          estimation.toDigital(estimation_string, can_show_days && estimation.value >= 60*60*24L);
+        }
+      }
+    }
+  #endif
+
+
+
+
   // print duration
   char buffer[14];
-  duration_t elapsed = print_job_timer.duration();
+  //duration_t elapsed = print_job_timer.duration();
   elapsed.toDigital(buffer);
-
+  
+  //background
   tft.canvas(96, 176, 128, 20);
   tft.set_background(COLOR_BACKGROUND);
-  tft_string.set(buffer);
-  tft.add_text(tft_string.center(128), 0, COLOR_PRINT_TIME, tft_string);
+
+  //Show Progress elapse /estimation
+  #if HAS_PRINT_PROGRESS
+    if (prev_blink != blink) {
+      prev_blink = blink;
+      if (++progress_state >= 3) progress_state = 0;
+    }
+
+    if (progress_state == 0) {
+      if (progress_string[0]) {
+        //lcd_put_u8str(progress_x_pos, EXTRAS_BASELINE, progress_string);
+        //lcd_put_wchar('%');
+        tft_string.set(progress_string);
+        tft_string.add('%');
+        tft.add_text(tft_string.center(128), 0, COLOR_PRINT_TIME, tft_string);
+      }
+    }
+    else if (progress_state == 2 && estimation_string[0]) {
+      //lcd_put_u8str_P(PROGRESS_BAR_X, EXTRAS_BASELINE, PSTR("R:"));
+      //lcd_put_u8str(estimation_x_pos, EXTRAS_BASELINE, estimation_string);
+      tft_string.set("R: ");
+      tft_string.add(estimation_string);
+      tft.add_text(tft_string.center(128), 0, COLOR_PRINT_TIME, tft_string);
+    }
+    else{
+      //lcd_put_u8str_P(PROGRESS_BAR_X, EXTRAS_BASELINE, E_LBL);
+      //lcd_put_u8str(elapsed_x_pos, EXTRAS_BASELINE, elapsed_string);
+      tft_string.set("E: ");
+      tft_string.add(buffer);
+      tft.add_text(tft_string.center(128), 0, COLOR_PRINT_TIME, tft_string);
+    }
+  #endif // HAS_PRINT_PROGRESS
 
   // progress bar
   const uint8_t progress = ui.get_progress_percent();

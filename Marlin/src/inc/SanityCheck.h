@@ -3052,8 +3052,8 @@ static_assert(   _ARR_TEST(3,0) && _ARR_TEST(3,1) && _ARR_TEST(3,2)
   #undef _PIN_CONFLICT
 #endif
 
-#if !HAS_GRAPHICAL_LCD
-  #if ENABLED(PRINT_PROGRESS_SHOW_DECIMALS)
+#if !HAS_GRAPHICAL_LCD && DISABLED(COLOR_UI)
+  #if ENABLED(PRINT_PROGRESS_SHOW_DECIMALS) 
     #error "PRINT_PROGRESS_SHOW_DECIMALS currently requires a Graphical LCD."
   #elif ENABLED(SHOW_REMAINING_TIME)
     #error "SHOW_REMAINING_TIME currently requires a Graphical LCD."
