@@ -235,10 +235,6 @@ void Touch::touch(touch_control_t *control) {
       fan_speed = thermalManager.fan_speed[fan];
       MenuItem_percent::action((const char *)GET_TEXT_F(MSG_FIRST_FAN_SPEED), &fan_speed, 0, 255, []{ thermalManager.set_fan_speed(fan, fan_speed); });
       break;
-    case FEEDRATE:
-      ui.clear_lcd();
-      MenuItem_int3::action((const char *)GET_TEXT_F(MSG_SPEED), &feedrate_percentage, 10, 999);
-      break;
     case FLOWRATE:
       ui.clear_lcd();
       MenuItemBase::itemIndex = control->data;
@@ -253,7 +249,7 @@ void Touch::touch(touch_control_t *control) {
       case UBL: hold(control, UBL_REPEAT_DELAY); ui.encoderPosition += control->data; break;
     #endif
 
-    case MOVE_AXIS:
+    case FEEDRATE:
       ui.goto_screen((screenFunc_t)ui.move_axis);
       break;
 

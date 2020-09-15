@@ -999,7 +999,7 @@
  * or (with LCD_BED_LEVELING) the LCD controller.
  */
 #if ENABLED(MBLEVELING)
-  #define PROBE_MANUALLY
+  //#define PROBE_MANUALLY
 #endif
 #define MANUAL_PROBE_START_Z 0.0
 
@@ -1383,7 +1383,7 @@
 #endif
 //#define AUTO_BED_LEVELING_UBL
 #if ENABLED(MBLEVELING)
-  #define MESH_BED_LEVELING
+  //#define MESH_BED_LEVELING
 #endif
 
 /**
@@ -1493,7 +1493,7 @@
  * Add a bed leveling sub-menu for ABL or MBL.
  * Include a guided procedure if manual probing is enabled.
  */
-#define LCD_BED_LEVELING
+//#define LCD_BED_LEVELING
 
 #if ENABLED(LCD_BED_LEVELING)
   #define MESH_EDIT_Z_STEP  0.01 // (mm) Step size while manually probing Z axis.
