@@ -2368,7 +2368,8 @@
 //or
 //#define CLASSIC_UI
 #if !ENABLED(COLOR_UI) && !ENABLED(CLASSIC_UI)
- #define CLASSIC_UI
+ //#define CLASSIC_UI
+ #define LONGER3D
 #endif
 
 //
