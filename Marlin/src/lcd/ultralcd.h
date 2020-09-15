@@ -685,6 +685,10 @@ public:
     static void touch_calibration();
   #endif
 
+  #if HAS_GRAPHICAL_TFT
+    static void move_axis();
+  #endif
+
 private:
 
   #if HAS_DISPLAY
