@@ -172,7 +172,7 @@
     if (ui.use_click()) {
       manual_probe_index = 0;
       _lcd_level_goto_next_point();
-    #endif
+    }
   }
 
   //
