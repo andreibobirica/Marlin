@@ -94,9 +94,6 @@ uint8_t TouchButtons::read_buttons() {
            : WITHIN(x, 166, 229) ? EN_B
            : WITHIN(x, 242, 305) ? EN_C
            : 0;
-    
-    // Scroll up when sliding finger up to first menu item
-    if (y < SCREEN_PCT_TOP) return TERN(REVERSE_MENU_DIRECTION, EN_B, EN_A);
 
     if ( !WITHIN(x, SCREEN_PCT_LEFT, SCREEN_PCT_LEFT + SCREEN_PCT_WIDTH)
       || !WITHIN(y, SCREEN_PCT_TOP,  SCREEN_PCT_TOP  + SCREEN_PCT_HEIGHT)
