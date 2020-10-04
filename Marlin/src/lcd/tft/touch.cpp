@@ -35,7 +35,6 @@
 
 #include "tft.h"
 
-bool Touch::enabled = true;
 int16_t Touch::x, Touch::y;
 touch_control_t Touch::controls[];
 touch_control_t *Touch::current_control;
@@ -55,7 +54,6 @@ void Touch::init() {
   calibration_reset();
   reset();
   io.Init();
-  enable();
 }
 
 void Touch::add_control(TouchControlType type, uint16_t x, uint16_t y, uint16_t width, uint16_t height, int32_t data) {
@@ -73,8 +71,6 @@ void Touch::add_control(TouchControlType type, uint16_t x, uint16_t y, uint16_t 
 void Touch::idle() {
   uint16_t i;
   int16_t _x, _y;
-
-  if (!enabled) return;
 
   if (now == millis()) return;
   now = millis();
@@ -256,13 +252,6 @@ void Touch::touch(touch_control_t *control) {
     #if ENABLED(AUTO_BED_LEVELING_UBL)
       case UBL: hold(control, UBL_REPEAT_DELAY); ui.encoderPosition += control->data; break;
     #endif
-
-    case MOVE_AXIS:
-      ui.goto_screen((screenFunc_t)ui.move_axis_screen);
-      break;
-
-    // TODO: TOUCH could receive data to pass to the callback
-    case BUTTON: ((screenFunc_t)control->data)(); break;
 
     default: break;
   }

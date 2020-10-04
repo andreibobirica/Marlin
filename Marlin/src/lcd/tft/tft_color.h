@@ -44,7 +44,6 @@
 #define COLOR_SCARLET         0xF904  // #FF2020
 #define COLOR_LIME            0x7E00  // #00FF00
 #define COLOR_BLUE            0x001F  // #0000FF
-#define COLOR_LIGHT_BLUE      0x061F  // #00C3FF
 #define COLOR_YELLOW          0xFFE0  // #FFFF00
 #define COLOR_MAGENTA         0xF81F  // #FF00FF
 #define COLOR_FUCHSIA         0xF81F  // #FF00FF
@@ -69,34 +68,17 @@
 
 #define COLOR_DARK_PURPLE     0x9930  // #992380
 
-#ifndef COLOR_BACKGROUND
-  #define COLOR_BACKGROUND    0x20AC  // #1E156E
-#endif
-#ifndef COLOR_SELECTION_BG
-  #define COLOR_SELECTION_BG    0x9930  // #992380
-#endif
-#ifndef COLOR_WEBSITE_URL
-  #define COLOR_WEBSITE_URL     0x03B7
-#endif
 
-#ifndef COLOR_INACTIVE
-  #define COLOR_INACTIVE          COLOR_GREY
-#endif
-#ifndef COLOR_COLD
-  #define COLOR_COLD              COLOR_AQUA
-#endif
-#ifndef COLOR_HOTEND
-  #define COLOR_HOTEND            COLOR_SCARLET
-#endif
-#ifndef COLOR_HEATED_BED
-  #define COLOR_HEATED_BED        COLOR_DARK_ORANGE
-#endif
-#ifndef COLOR_CHAMBER
-  #define COLOR_CHAMBER           COLOR_DARK_ORANGE
-#endif
-#ifndef COLOR_FAN
-  #define COLOR_FAN               COLOR_AQUA
-#endif
+#define COLOR_BACKGROUND        0x20AC  // #1E156E
+#define COLOR_SELECTION_BG      0x9930  // #992380
+#define COLOR_WEBSITE_URL       0x03B7
+
+#define COLOR_INACTIVE          COLOR_GREY
+#define COLOR_COLD              COLOR_AQUA
+#define COLOR_HOTEND            COLOR_SCARLET
+#define COLOR_HEATED_BED        COLOR_DARK_ORANGE
+#define COLOR_CHAMBER           COLOR_DARK_ORANGE
+#define COLOR_FAN               COLOR_AQUA
 
 #ifndef COLOR_AXIS_HOMED
   #define COLOR_AXIS_HOMED        COLOR_WHITE
